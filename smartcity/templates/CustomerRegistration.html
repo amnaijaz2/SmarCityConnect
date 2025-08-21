@@ -1,0 +1,253 @@
+{% load static%}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+    
+    <link rel="icon" href="{% static 'media/location.jpg'%}" />
+    <link rel="stylesheet" href="{% static 'css/customerreg.css'%}" />
+    <link rel="stylesheet" href="{% static 'css/customereg.css'%}" />
+    <script src="{% static 'js/customerreg.js' %}" defer></script>
+    <title>SmartCityConnect</title>
+  </head>
+  <body>
+    <script
+      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+      integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
+      integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
+      crossorigin="anonymous"
+    ></script>
+    <!--Header-->
+    <!--Navbar-->
+    <div class="container-fluid bg-primary navbar-container">
+      <div class="container">
+        <div class="row">
+          <div class="col-12">
+            <nav class="navbar navbar-expand-lg navbar-dark">
+              <a
+                class="navbar-brand text-light fw-bold d-flex align-items-center brand-logo"
+                href="{% url 'Home'%}"
+              >
+                <span class="logo-text">SmartCityConnect</span>
+                <i class="fa-solid fa-location-dot logo-icon ms-2"></i>
+              </a>
+              <button
+                class="navbar-toggler"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#navbarNav"
+              >
+                <i class="fa-solid fa-bars text-white"></i>
+              </button>
+              <div
+                class="collapse navbar-collapse justify-content-lg-end"
+                id="navbarNav"
+              >
+                <ul class="navbar-nav nav-items">
+                  <li class="nav-item">
+                    <a
+                      href="{% url 'Home'%}"
+                      class="nav-link text-light fw-bold nav-link-hover"
+                    >
+                      <span>Home</span>
+                    </a>
+                  </li>
+                   <li class="nav-item">
+                    <a href="{% url 'About'%}" class="nav-link text-light fw-bold nav-link-hover">
+                      <span>About</span>
+                    </a>
+                  </li>
+                 
+                  <li class="nav-item">
+                    <a
+                      href="{% url 'Loginpage'%}"
+                      class="nav-link text-light fw-bold nav-link-hover login-btn"
+                    >
+                      <span>Login</span>
+                      <i class="fa-solid fa-arrow-right-to-bracket ms-1"></i>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!--form Login-->
+    <div class="signup-hero">
+      <div class="signup-container">
+        <!-- Animated Header -->
+        <div class="signup-header">
+          <div class="signup-badge pulse">✨</div>
+          <h2 class="signup-title">Join SmartCityConnect</h2>
+          <p class="signup-subtitle">Create your account in seconds</p>
+        </div>
+
+        <!-- Floating Form Container -->
+        <div class="floating-form">
+          <!-- Toggle between Sign Up/Login -->
+          <div class="form-toggle">
+            <button class="toggle-btn active">Sign Up</button>
+            <button
+              class="toggle-btn"
+              onclick="location.href='{% url 'Loginpage'%}'   "
+            >
+              Login
+            </button>
+          </div>
+
+          <!-- Animated Form -->
+          <form
+            class="animated-form"
+            method="post"
+            enctype="multipart/form-data"
+          >
+            {% csrf_token %}
+
+            <!-- Messages -->
+            {% if messages %}
+            <div class="alert-container">
+              {% for message in messages %}
+              <div class="alert-message pop-in">
+                <div class="alert-icon">💡</div>
+                <div class="alert-text">{{ message }}</div>
+              </div>
+              {% endfor %}
+            </div>
+            {% endif %}
+
+            <!-- Form Fields with Floating Labels -->
+            <div class="form-group float-label">
+              <input type="text" id="firstName" name="first_name" required />
+              <label for="firstName">First Name</label>
+              <div class="focus-border"></div>
+            </div>
+
+            <div class="form-group float-label">
+              <input type="text" id="lastName" name="last_name" required />
+              <label for="lastName">Last Name</label>
+              <div class="focus-border"></div>
+            </div>
+
+            <div class="form-group float-label">
+              <input type="text" id="username" name="username" required />
+              <label for="username">Username</label>
+              <div class="focus-border"></div>
+            </div>
+
+            <div class="form-group float-label">
+              <input type="email" id="email" name="email" required />
+              <label for="email">Email</label>
+              <div class="focus-border"></div>
+            </div>
+
+          <div class="form-group float-label password-group">
+              <input type="password" id="password" name="password" required />
+              <label for="password">Create Password</label>
+              <div class="focus-border"></div>
+              <button type="button" class="pw-toggle">
+                <i class="fas fa-eye"></i>
+              </button>
+              <div class="password-hints">
+                <div class="hint-item">
+                  <i class="fas fa-check-circle"></i> 8+ characters
+                </div>
+                <div class="hint-item">
+                  <i class="fas fa-check-circle"></i> No spaces
+                </div>
+              </div>
+            </div>
+
+            <!-- Animated Submit Button -->
+            <button type="submit" class="submit-btn">
+              <span class="btn-text">Get Started</span>
+              <div class="btn-icon">
+                <i class="fas fa-arrow-right"></i>
+              </div>
+              <div class="btn-sparkles">
+                <span>✦</span><span>✦</span><span>✦</span>
+              </div>
+            </button>
+          </form>
+
+          <div class="form-footer">
+            <p>
+              Already have an account?
+              <a href="" class="login-link">Log-in</a>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Decorative Animated Elements -->
+      <div class="deco-circle deco-1"></div>
+      <div class="deco-circle deco-2"></div>
+      <div class="deco-dots"></div>
+    </div>
+
+    <!--Bottom-->
+    <div class="container-fluid footer-section">
+      <div class="container">
+        <!-- Main Footer Content -->
+        <div class="footer-content">
+          <div class="footer-brand">
+            <i class="fas fa-location-dot footer-logo pulse"></i>
+            <h2 class="footer-title">SmartCityConnect</h2>
+          </div>
+
+          <div class="footer-text">
+            <p class="footer-copyright">
+              © 2025 SmartCityConnect. All rights reserved.
+            </p>
+            <p class="footer-disclaimer">
+              SmartCityConnect is an independent service provider and is not
+              affiliated with any parent company.
+            </p>
+
+            <div class="footer-rewards slide-up">
+              <h5 class="rewards-title">Rewards Program</h5>
+              <p class="rewards-text">
+                Available to customers who book services through
+                SmartCityConnect. New and existing users welcome. No
+                subscription required. Must be 18 years or older to participate.
+                A user account on SmartCityConnect is required to earn rewards.
+                Geographical exclusions may apply. Enjoy one reward per month
+                for a year, redeemable through the SmartCityConnect app or
+                website.
+              </p>
+            </div>
+
+            <div class="footer-premium slide-up" style="--delay: 0.2s">
+              <h5 class="premium-title">Premium Rewards</h5>
+              <p class="premium-text">
+                Available to customers who book services through the
+                SmartCityConnect app only. Maximum claim limit applies.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Back to Top Button -->
+        <div class="back-to-top">
+          <a href="#top" class="top-link">
+            <span class="top-text">Back to Top</span>
+            <i class="fas fa-arrow-up top-icon"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

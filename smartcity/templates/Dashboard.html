@@ -1,0 +1,1967 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | SmartCityConnect</title>
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Animate.css -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="icon" href="{% static 'media/location.jpg'%}" />
+    <link rel="stylesheet" href="{% static 'css/admin.css' %}">
+    <!-- AOS Animation -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <style>
+    :root {
+        --primary: #4361ee;
+        --primary-light: #3f37c9;
+        --secondary: #3a0ca3;
+        --success: #4cc9f0;
+        --info: #4895ef;
+        --warning: #f72585;
+        --danger: #b5179e;
+        --light: #f8f9fa;
+        --dark: #212529;
+        --gray: #6c757d;
+        --white: #ffffff;
+        --sidebar-width: 280px;
+        --sidebar-collapsed-width: 80px;
+        --topbar-height: 70px;
+        --transition: all 0.3s ease;
+        --shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+        --card-radius: 0.5rem;
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+        background-color: #f5f7fb;
+        color: var(--dark);
+        overflow-x: hidden;
+        min-height: 100vh;
+        transition: var(--transition);
+    }
+
+    /* Sidebar Styles */
+    #sidebar {
+        width: var(--sidebar-width);
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        background: linear-gradient(180deg, var(--primary) 0%, var(--primary-light) 100%);
+        color: var(--white);
+        transition: var(--transition);
+        z-index: 1000;
+        box-shadow: var(--shadow);
+        overflow: hidden;
+    }
+
+    .sidebar-collapsed #sidebar {
+        width: var(--sidebar-collapsed-width);
+    }
+
+    .sidebar-brand {
+        height: var(--topbar-height);
+        display: flex;
+        align-items: center;
+        padding: 0 1.5rem;
+        font-size: 1.25rem;
+        font-weight: 600;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        transition: var(--transition);
+        white-space: nowrap;
+    }
+
+    .sidebar-collapsed .sidebar-brand {
+        justify-content: center;
+        padding: 0;
+    }
+
+    .sidebar-brand img {
+        height: 36px;
+        margin-right: 10px;
+        transition: var(--transition);
+    }
+
+    .sidebar-collapsed .sidebar-brand img {
+        margin-right: 0;
+    }
+
+    .sidebar-collapsed .sidebar-brand span {
+        display: none;
+    }
+
+    .sidebar-nav {
+        padding: 1rem 0;
+        height: calc(100vh - var(--topbar-height));
+        overflow-y: auto;
+        scrollbar-width: thin;
+        scrollbar-color: rgba(255,255,255,0.3) transparent;
+    }
+
+    .sidebar-nav::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    .sidebar-nav::-webkit-scrollbar-thumb {
+        background-color: rgba(255,255,255,0.3);
+        border-radius: 3px;
+    }
+
+    .sidebar-nav::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    .nav-item {
+        margin: 0.25rem 0;
+        transition: var(--transition);
+    }
+
+    .nav-link {
+        display: flex;
+        align-items: center;
+        padding: 0.75rem 1.5rem;
+        color: rgba(255, 255, 255, 0.85);
+        text-decoration: none;
+        transition: var(--transition);
+        font-weight: 500;
+        position: relative;
+        white-space: nowrap;
+    }
+
+    .sidebar-collapsed .nav-link {
+        justify-content: center;
+        padding: 0.75rem 0;
+    }
+
+    .nav-link:hover, 
+    .nav-link.active {
+        color: var(--white);
+        background: rgba(255, 255, 255, 0.1);
+    }
+
+    .nav-link i {
+        font-size: 1.1rem;
+        min-width: 24px;
+        text-align: center;
+        transition: var(--transition);
+    }
+
+    .sidebar-collapsed .nav-link i {
+        margin-right: 0;
+        font-size: 1.25rem;
+    }
+
+    .nav-link span {
+        transition: var(--transition);
+    }
+
+    .sidebar-collapsed .nav-link span {
+        opacity: 0;
+        width: 0;
+        position: absolute;
+        left: 100%;
+        background: var(--primary);
+        padding: 0.75rem 1rem;
+        border-radius: 0 0.5rem 0.5rem 0;
+        pointer-events: none;
+        box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .sidebar-collapsed .nav-item:hover .nav-link span {
+        opacity: 1;
+        width: auto;
+        left: var(--sidebar-collapsed-width);
+    }
+
+    /* Main Content */
+    #content {
+        margin-left: var(--sidebar-width);
+        min-height: 100vh;
+        transition: var(--transition);
+    }
+
+    .sidebar-collapsed #content {
+        margin-left: var(--sidebar-collapsed-width);
+    }
+
+    /* Top Navigation */
+    .topbar {
+        height: var(--topbar-height);
+        background: var(--white);
+        box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.1);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 1.5rem;
+        position: sticky;
+        top: 0;
+        z-index: 900;
+        transition: var(--transition);
+    }
+
+    .sidebar-collapsed .topbar {
+        left: var(--sidebar-collapsed-width);
+    }
+
+    .toggle-btn {
+        background: none;
+        border: none;
+        font-size: 1.25rem;
+        color: var(--dark);
+        cursor: pointer;
+        transition: var(--transition);
+        padding: 0.5rem;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .toggle-btn:hover {
+        color: var(--primary);
+        background: rgba(67, 97, 238, 0.1);
+    }
+
+    .topbar-right {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .notification-bell {
+        position: relative;
+        color: var(--gray);
+        cursor: pointer;
+        transition: var(--transition);
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+    }
+
+    .notification-bell:hover {
+        color: var(--primary);
+        background: rgba(67, 97, 238, 0.1);
+    }
+
+    .notification-badge {
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        background-color: var(--warning);
+        color: white;
+        border-radius: 50%;
+        width: 18px;
+        height: 18px;
+        font-size: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .user-info {
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        position: relative;
+        transition: var(--transition);
+        padding: 0.25rem;
+        border-radius: 50px;
+    }
+
+    .user-info:hover {
+        background: rgba(67, 97, 238, 0.1);
+    }
+
+    .user-info img {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        margin-right: 10px;
+        object-fit: cover;
+        border: 2px solid var(--primary);
+        transition: var(--transition);
+    }
+
+    .user-info span {
+        font-weight: 500;
+    }
+
+    .user-dropdown {
+        position: absolute;
+        top: calc(100% + 10px);
+        right: 0;
+        background: var(--white);
+        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+        border-radius: var(--card-radius);
+        width: 200px;
+        display: none;
+        z-index: 1001;
+        overflow: hidden;
+    }
+
+    .user-dropdown.show {
+        display: block;
+        animation: fadeInDown 0.3s ease-out;
+    }
+
+    @keyframes fadeInDown {
+        from {
+            opacity: 0;
+            transform: translateY(-10px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .user-dropdown a {
+        display: flex;
+        align-items: center;
+        padding: 0.75rem 1rem;
+        color: var(--dark);
+        text-decoration: none;
+        transition: var(--transition);
+    }
+
+    .user-dropdown a:hover {
+        background: var(--light);
+        color: var(--primary);
+    }
+
+    .user-dropdown a i {
+        margin-right: 10px;
+        width: 20px;
+        text-align: center;
+        color: var(--gray);
+    }
+
+    .user-dropdown a:hover i {
+        color: var(--primary);
+    }
+      /* Add this new mobile-specific CSS */
+    @media (max-width: 992px) {
+        #sidebar {
+            transform: translateX(-100%);
+            width: 280px;
+            z-index: 1001;
+            transition: transform 0.3s ease;
+        }
+        
+        #sidebar.active {
+            transform: translateX(0);
+        }
+        
+        #content {
+            margin-left: 0;
+            width: 100%;
+            transition: transform 0.3s ease;
+        }
+        
+        #content.shifted {
+            transform: translateX(280px);
+        }
+        
+        .sidebar-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            display: none;
+        }
+        
+        .sidebar-overlay.active {
+            display: block;
+        }
+        
+        body.sidebar-open {
+            overflow: hidden;
+        }
+    }
+
+    /* Dashboard Content */
+    .container-fluid {
+        padding: 1.5rem;
+        transition: var(--transition);
+    }
+
+    .page-header {
+        margin-bottom: 1.5rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+
+    .page-header h2 {
+        color: var(--dark);
+        font-weight: 600;
+        font-size: 1.5rem;
+        position: relative;
+        display: inline-block;
+    }
+
+    .page-header h2::after {
+        content: '';
+        position: absolute;
+        bottom: -5px;
+        left: 0;
+        width: 40px;
+        height: 3px;
+        background: var(--primary);
+        border-radius: 3px;
+    }
+
+    .page-header .breadcrumb {
+        display: flex;
+        list-style: none;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin: 0;
+        padding: 0;
+    }
+
+    .page-header .breadcrumb li {
+        color: var(--gray);
+        font-size: 0.9rem;
+        display: flex;
+        align-items: center;
+    }
+
+    .page-header .breadcrumb li:not(:last-child)::after {
+        content: '/';
+        margin-left: 0.5rem;
+        color: var(--gray);
+    }
+
+    .page-header .breadcrumb li.active {
+        color: var(--primary);
+        font-weight: 500;
+    }
+
+    /* Grid System */
+    .row {
+        display: flex;
+        flex-wrap: wrap;
+        margin: 0 -0.75rem;
+    }
+
+    .col-lg-3, .col-lg-4, .col-lg-6, .col-lg-8, 
+    .col-md-6, .col-md-12 {
+        padding: 0 0.75rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .col-lg-3 { flex: 0 0 25%; max-width: 25%; }
+    .col-lg-4 { flex: 0 0 33.333%; max-width: 33.333%; }
+    .col-lg-6 { flex: 0 0 50%; max-width: 50%; }
+    .col-lg-8 { flex: 0 0 66.666%; max-width: 66.666%; }
+    .col-md-6 { flex: 0 0 50%; max-width: 50%; }
+    .col-md-12 { flex: 0 0 100%; max-width: 100%; }
+
+    /* Cards */
+    .card {
+        border: none;
+        border-radius: var(--card-radius);
+        box-shadow: var(--shadow);
+        background: var(--white);
+        transition: var(--transition);
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 1rem 1.5rem rgba(0, 0, 0, 0.15);
+    }
+
+    .card-header {
+        background-color: var(--white);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        padding: 1rem 1.25rem;
+        font-weight: 600;
+        color: var(--dark);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-radius: var(--card-radius) var(--card-radius) 0 0 !important;
+    }
+
+    .card-header h5 {
+        margin: 0;
+        font-size: 1.1rem;
+        position: relative;
+        padding-left: 12px;
+    }
+
+    .card-header h5::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 4px;
+        height: 60%;
+        background: var(--primary);
+        border-radius: 4px;
+    }
+
+    .card-body {
+        padding: 1.25rem;
+        flex-grow: 1;
+    }
+
+    /* Summary Cards */
+    .summary-card {
+        border-radius: var(--card-radius);
+        color: var(--white);
+        padding: 1.25rem;
+        position: relative;
+        overflow: hidden;
+        transition: var(--transition);
+        height: 100%;
+        box-shadow: var(--shadow);
+    }
+
+    .summary-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 1rem 1.5rem rgba(0, 0, 0, 0.2);
+    }
+
+    .summary-card::before {
+        content: '';
+        position: absolute;
+        top: -20px;
+        right: -20px;
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.1);
+        transition: var(--transition);
+    }
+
+    .summary-card:hover::before {
+        transform: scale(1.2);
+    }
+
+    .summary-card.primary {
+        background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+    }
+
+    .summary-card.success {
+        background: linear-gradient(135deg, var(--success) 0%, #2ec4b6 100%);
+    }
+
+    .summary-card.info {
+        background: linear-gradient(135deg, var(--info) 0%, #3a86ff 100%);
+    }
+
+    .summary-card.warning {
+        background: linear-gradient(135deg, var(--warning) 0%, #ff7096 100%);
+    }
+
+    .summary-card .card-icon {
+        font-size: 2rem;
+        margin-bottom: 0.75rem;
+        opacity: 0.8;
+        transition: var(--transition);
+    }
+
+    .summary-card:hover .card-icon {
+        transform: scale(1.1);
+        opacity: 1;
+    }
+
+    .summary-card .card-title {
+        font-size: 0.9rem;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 0.5rem;
+        opacity: 0.9;
+    }
+
+    .summary-card .card-value {
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+    }
+
+    .summary-card .card-change {
+        font-size: 0.8rem;
+        display: flex;
+        align-items: center;
+        opacity: 0.9;
+    }
+
+    .summary-card .card-change i {
+        margin-right: 5px;
+    }
+
+    /* Tables */
+    .table-responsive {
+        overflow-x: auto;
+        border-radius: var(--card-radius);
+        box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.05);
+    }
+
+    .table {
+        width: 100%;
+        color: var(--dark);
+        border-collapse: separate;
+        border-spacing: 0;
+        min-width: 800px;
+    }
+
+    .table th {
+        font-weight: 600;
+        padding: 0.75rem;
+        border-top: none;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        background-color: var(--light);
+        position: sticky;
+        top: 0;
+        white-space: nowrap;
+    }
+
+    .table td {
+        padding: 0.75rem;
+        vertical-align: middle;
+        border-top: 1px solid rgba(0, 0, 0, 0.05);
+    }
+
+    .table tr:hover td {
+        background-color: rgba(67, 97, 238, 0.05);
+    }
+
+    .badge {
+        padding: 0.4rem 0.6rem;
+        font-weight: 500;
+        border-radius: 0.4rem;
+        font-size: 0.7rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .badge i {
+        margin-right: 5px;
+        font-size: 0.6rem;
+    }
+
+    .badge-primary {
+        background-color: rgba(67, 97, 238, 0.1);
+        color: var(--primary);
+    }
+
+    .badge-success {
+        background-color: rgba(76, 201, 240, 0.1);
+        color: var(--success);
+    }
+
+    .badge-warning {
+        background-color: rgba(247, 37, 133, 0.1);
+        color: var(--warning);
+    }
+
+    .badge-info {
+        background-color: rgba(72, 149, 239, 0.1);
+        color: var(--info);
+    }
+
+    /* Buttons */
+    .btn {
+        padding: 0.5rem 0.9rem;
+        border-radius: 0.4rem;
+        font-weight: 500;
+        border: none;
+        cursor: pointer;
+        transition: var(--transition);
+        font-size: 0.8rem;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .btn::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 5px;
+        height: 5px;
+        background: rgba(255, 255, 255, 0.5);
+        opacity: 0;
+        border-radius: 100%;
+        transform: scale(1, 1) translate(-50%, -50%);
+        transform-origin: 50% 50%;
+    }
+
+    .btn:focus:not(:active)::after {
+        animation: ripple 0.6s ease-out;
+    }
+
+    @keyframes ripple {
+        0% {
+            transform: scale(0, 0);
+            opacity: 0.5;
+        }
+        100% {
+            transform: scale(20, 20);
+            opacity: 0;
+        }
+    }
+
+    .btn i {
+        margin-right: 5px;
+        font-size: 0.8rem;
+    }
+
+    .btn-sm {
+        padding: 0.375rem 0.7rem;
+        font-size: 0.75rem;
+    }
+
+    .btn-rounded {
+        border-radius: 50px;
+    }
+
+    .btn-primary {
+        background-color: var(--primary);
+        color: white;
+    }
+
+    .btn-primary:hover {
+        background-color: var(--primary-light);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 10px rgba(67, 97, 238, 0.3);
+    }
+
+    .btn-success {
+        background-color: var(--success);
+        color: white;
+    }
+
+    .btn-success:hover {
+        background-color: #3ab7d8;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 10px rgba(76, 201, 240, 0.3);
+    }
+
+    .btn-info {
+        background-color: var(--info);
+        color: white;
+    }
+
+    .btn-info:hover {
+        background-color: #3a7bc8;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 10px rgba(72, 149, 239, 0.3);
+    }
+
+    .btn-warning {
+        background-color: var(--warning);
+        color: white;
+    }
+
+    .btn-warning:hover {
+        background-color: #e5177a;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 10px rgba(247, 37, 133, 0.3);
+    }
+
+    .btn-light {
+        background-color: var(--light);
+        color: var(--dark);
+    }
+
+    .btn-light:hover {
+        background-color: #e9ecef;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(108, 117, 125, 0.1);
+    }
+
+    .btn-group {
+        display: flex;
+        border-radius: 0.4rem;
+        overflow: hidden;
+        box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.05);
+    }
+
+    .btn-group .btn {
+        border-radius: 0;
+        margin: 0;
+        box-shadow: none;
+    }
+
+    .btn-group .btn:first-child {
+        border-top-left-radius: 0.4rem;
+        border-bottom-left-radius: 0.4rem;
+    }
+
+    .btn-group .btn:last-child {
+        border-top-right-radius: 0.4rem;
+        border-bottom-right-radius: 0.4rem;
+    }
+
+    .btn-group .btn.active {
+        background: var(--primary);
+        color: white;
+    }
+
+    /* Chart Container */
+    .chart-container {
+        position: relative;
+        height: 250px;
+        margin-top: 1rem;
+    }
+
+    /* Activity Timeline */
+    .activity-timeline {
+        position: relative;
+        padding-left: 25px;
+    }
+
+    .activity-timeline:before {
+        content: '';
+        position: absolute;
+        left: 8px;
+        top: 0;
+        bottom: 0;
+        width: 2px;
+        background: linear-gradient(to bottom, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0.1));
+    }
+
+    .timeline-item {
+        position: relative;
+        padding-bottom: 1.25rem;
+    }
+
+    .timeline-dot {
+        position: absolute;
+        left: -25px;
+        top: 5px;
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 8px;
+        box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.9);
+    }
+
+    .timeline-content {
+        background: white;
+        padding: 0.75rem;
+        border-radius: 0.4rem;
+        box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.05);
+    }
+
+    .timeline-time {
+        font-size: 0.7rem;
+        color: var(--gray);
+        margin-top: 0.25rem;
+        display: block;
+    }
+
+    /* Loading Animation */
+    .loader {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(255, 255, 255, 0.9);
+        z-index: 9999;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: opacity 0.3s ease;
+    }
+
+    .loader.hidden {
+        opacity: 0;
+        pointer-events: none;
+    }
+
+    .loader-content {
+        text-align: center;
+    }
+
+    .spinner {
+        width: 40px;
+        height: 40px;
+        border: 4px solid rgba(67, 97, 238, 0.2);
+        border-radius: 50%;
+        border-top-color: var(--primary);
+        animation: spin 1s ease-in-out infinite;
+        margin: 0 auto 1rem;
+    }
+
+    @keyframes spin {
+        to { transform: rotate(360deg); }
+    }
+
+    /* Modal */
+    .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 9998;
+        justify-content: center;
+        align-items: center;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    .modal.show {
+        display: flex;
+        opacity: 1;
+    }
+
+    .modal-content {
+        background: white;
+        border-radius: var(--card-radius);
+        width: 90%;
+        max-width: 500px;
+        max-height: 90vh;
+        overflow-y: auto;
+        transform: translateY(-20px);
+        transition: transform 0.3s ease;
+        box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.15);
+    }
+
+    .modal.show .modal-content {
+        transform: translateY(0);
+    }
+
+    .modal-header {
+        padding: 1rem 1.25rem;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .modal-title {
+        font-size: 1.1rem;
+        font-weight: 600;
+        margin: 0;
+    }
+
+    .modal-close {
+        background: none;
+        border: none;
+        font-size: 1.25rem;
+        cursor: pointer;
+        color: var(--gray);
+        transition: var(--transition);
+        padding: 0.25rem;
+    }
+
+    .modal-close:hover {
+        color: var(--dark);
+    }
+
+    .modal-body {
+        padding: 1.25rem;
+    }
+
+    .modal-footer {
+        padding: 0.75rem 1.25rem;
+        border-top: 1px solid rgba(0, 0, 0, 0.05);
+        display: flex;
+        justify-content: flex-end;
+        gap: 0.5rem;
+    }
+
+    /* Notification Items */
+    .notification-item {
+        transition: var(--transition);
+    }
+
+    .notification-item:hover {
+        background-color: rgba(0, 0, 0, 0.02);
+    }
+
+    /* Responsive */
+    @media (max-width: 1200px) {
+        .col-lg-3 { flex: 0 0 50%; max-width: 50%; }
+        .col-lg-4 { flex: 0 0 50%; max-width: 50%; }
+        .col-lg-6 { flex: 0 0 100%; max-width: 100%; }
+        .col-lg-8 { flex: 0 0 100%; max-width: 100%; }
+    }
+
+    /* Mobile Sidebar Styles */
+    @media (max-width: 992px) {
+        #sidebar {
+            transform: translateX(-100%);
+            position: fixed;
+            z-index: 1001;
+            transition: transform 0.3s ease;
+        }
+
+        #sidebar.active {
+            transform: translateX(0);
+            box-shadow: 5px 0 15px rgba(0, 0, 0, 0.1);
+        }
+
+        #content {
+            margin-left: 0;
+            transition: margin-left 0.3s ease;
+        }
+
+        .topbar {
+            left: 0;
+        }
+
+        /* Overlay when sidebar is open */
+        .sidebar-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            display: none;
+        }
+
+        .sidebar-overlay.active {
+            display: block;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .col-lg-3, .col-lg-4, .col-md-6 {
+            flex: 0 0 100%;
+            max-width: 100%;
+        }
+
+        .page-header {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .page-header .breadcrumb {
+            margin-top: 0.5rem;
+        }
+
+        .topbar {
+            padding: 0 1rem;
+        }
+
+        .container-fluid {
+            padding: 1rem;
+        }
+
+        .card-header {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 0.75rem;
+        }
+
+        .card-header .btn-group {
+            width: 100%;
+        }
+
+        .card-header .btn-group .btn {
+            flex: 1;
+            text-align: center;
+        }
+
+        .table td, .table th {
+            padding: 0.5rem;
+        }
+
+        .summary-card .card-value {
+            font-size: 1.25rem;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .user-info span {
+            display: none;
+        }
+
+        .btn-group {
+            flex-direction: column;
+        }
+
+        .btn-group .btn {
+            width: 100%;
+        }
+
+        .btn-group .btn:first-child {
+            border-radius: 0.4rem 0.4rem 0 0;
+        }
+
+        .btn-group .btn:last-child {
+            border-radius: 0 0 0.4rem 0.4rem;
+        }
+
+        .modal-content {
+            width: 95%;
+        }
+    }
+
+    /* Additional Utility Classes */
+    .text-center {
+        text-align: center;
+    }
+
+    .text-muted {
+        color: var(--gray) !important;
+    }
+
+    .mb-3 {
+        margin-bottom: 1rem;
+    }
+
+    .p-2 {
+        padding: 0.5rem;
+    }
+
+    .border-bottom {
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    }
+
+    .d-flex {
+        display: flex;
+    }
+
+    .justify-content-between {
+        justify-content: space-between;
+    }
+
+    .align-items-center {
+        align-items: center;
+    }
+
+    .alert {
+        padding: 0.75rem 1.25rem;
+        border-radius: var(--card-radius);
+        margin-bottom: 1rem;
+    }
+
+    .alert-info {
+        background-color: rgba(72, 149, 239, 0.1);
+        color: var(--info);
+        border: 1px solid rgba(72, 149, 239, 0.2);
+    }
+
+    .alert-danger {
+        background-color: rgba(181, 23, 158, 0.1);
+        color: var(--danger);
+        border: 1px solid rgba(181, 23, 158, 0.2);
+    }
+    .row.recentchart {
+        padding-left: 10%;
+        width: 100%;
+    }
+    .list-group {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .list-group-item {
+        padding: 0.75rem 1.25rem;
+        border: 1px solid rgba(0, 0, 0, 0.05);
+        margin-bottom: -1px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .img-fluid {
+        max-width: 100%;
+        height: auto;
+    }
+
+    .rounded-circle {
+        border-radius: 50% !important;
+    }
+    a.btn.btn-sm.btn-info {
+        text-decoration: none;
+    }
+
+    .object-fit-cover {
+        object-fit: cover;
+    }
+
+    /* Animation Classes */
+    .animate__animated {
+        animation-duration: 1s;
+        animation-fill-mode: both;
+    }
+
+    .animate__fadeIn {
+        animation-name: fadeIn;
+    }
+    li a {
+        color: blue;
+    }
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+    /* Toast Notification Styles */
+    .toast-container {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        z-index: 9999;
+        display: none;
+    }
+
+    .toast-message {
+        padding: 15px 25px;
+        border-radius: 4px;
+        color:  white;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        animation: slideIn 0.5s, fadeOut 0.5s 2.5s;
+    }
+
+    .toast-message.success {
+        background-color: #4361ee; /* Blue color */
+    }
+    .toast-message.error {
+        background-color: #f72585; /* Red color */
+    }
+    a {
+        color: white;
+    }
+
+    @keyframes slideIn {
+        from { transform: translateX(100%); }
+        to { transform: translateX(0); }
+    }
+
+    @keyframes fadeOut {
+        from { opacity: 1; }
+        to { opacity: 0; }
+    }
+    </style>
+</head>
+<body>
+    <!-- Loading Overlay -->
+    <div class="loader" id="loader">
+        <div class="loader-content">
+            <div class="spinner"></div>
+            <h4>Loading Dashboard...</h4>
+        </div>
+    </div>
+
+    <!-- Sidebar -->
+    <div id="sidebar">
+        <div class="sidebar-brand">
+            <img src="{% static 'media/location.JPG' %}" alt="Logo">
+            <span>SmartCityConnect</span>
+        </div>
+        <div class="sidebar-nav">
+            <div class="nav-item">
+                <a href="{% url 'dashboard' %}" class="nav-link active">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="{% url 'service_providers'%}" class="nav-link">
+                    <i class="fas fa-users-cog"></i>
+                    <span>Service Providers</span>
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="{% url 'customers'%}" class="nav-link">
+                    <i class="fas fa-users"></i>
+                    <span>Customers</span>
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="{% url 'logout' %}" class="nav-link">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sidebar Overlay (for mobile) -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- Main Content -->
+    <div id="content">
+        <!-- Top Navigation -->
+        <nav class="topbar">
+            <button class="toggle-btn" id="sidebarToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="topbar-right">
+               <div><h1>SmartCityConnect</h1></div>
+                <div class="user-info" id="userDropdownToggle">
+                    <img src="{% if request.user.profile_picture %}{{ request.user.profile_picture.url }}{% else %}{% static 'images/admin-avatar.jpg' %}{% endif %}" alt="Admin">
+                    <span>{{ request.user.get_full_name }}</span>
+                    <div class="user-dropdown" id="userDropdown">
+                        <a href="#"><i class="fas fa-user"></i> Profile</a>
+                        <a href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+               
+        <!-- Dashboard Content -->
+        <div class="container-fluid">
+            <!-- Page Header -->
+            <div class="page-header">
+                <h2>Dashboard Overview</h2>
+                <ul class="breadcrumb">
+                    <li><a href="{% url 'Home' %}">Home</a></li>
+                    <li class="active">Dashboard</li>
+                </ul>
+            </div>
+
+            <!-- Summary Cards -->
+            <div class="row">
+                <div class="col-lg-3 col-md-6">
+                    <div class="summary-card primary">
+                        <i class="fas fa-users card-icon"></i>
+                        <div class="card-title">Total Users</div>
+                        <div class="card-value">{{ total_users }}</div>
+                        <div class="card-change">
+                            <i class="fas fa-arrow-up"></i> {{ user_growth }}% from last month
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="summary-card success">
+                        <i class="fas fa-user-tie card-icon"></i>
+                        <div class="card-title">Service Providers</div>
+                        <div class="card-value">{{ total_providers }}</div>
+                        <div class="card-change">
+                            <i class="fas fa-arrow-up"></i> {{ provider_growth }}% from last month
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="summary-card info">
+                        <i class="fas fa-check-circle card-icon"></i>
+                        <div class="card-title">Approved</div>
+                        <div class="card-value">{{ approval_counts.approved }}</div>
+                        <div class="card-change">
+                            <i class="fas fa-arrow-up"></i> {{ new_approvals }} new approvals
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="summary-card warning">
+                        <i class="fas fa-clock card-icon"></i>
+                        <div class="card-title">Pending</div>
+                        <div class="card-value">{{ approval_counts.pending }}</div>
+                        <div class="card-change">
+                            <i class="fas fa-arrow-down"></i> {{ pending_reviews }} pending reviews
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Charts Row -->
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5>Service Provider Distribution</h5>
+                            <div class="btn-group">
+                                <button class="btn btn-sm btn-light" id="weekBtn">Week</button>
+                                <button class="btn btn-sm btn-light active" id="monthBtn">Month</button>
+                                <button class="btn btn-sm btn-light" id="yearBtn">Year</button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="chart-container">
+                                <canvas id="serviceChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5>Approval Status</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="chart-container">
+                                <canvas id="approvalChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Activity and Providers Row -->
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5>Recent Activity</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="activity-timeline">
+                                {% for activity in recent_activities %}
+                                <div class="timeline-item">
+                                    <div class="timeline-dot" style="background-color: {{ activity.get_icon_color }};">
+                                        <i class="fas fa-{{ activity.get_icon }}"></i>
+                                    </div>
+                                    <div class="timeline-content">
+                                        <p>{{ activity.message }}</p>
+                                        <small class="timeline-time">{{ activity.timestamp|timesince }} ago</small>
+                                    </div>
+                                </div>
+                                {% empty %}
+                                <p>No recent activities</p>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5>Recent Service Providers</h5>
+                            <a href="" class="btn btn-sm btn-primary">View All</a>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Name</th>
+                                            <th>Service</th>
+                                            <th>Status</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for provider in recent_providers %}
+                                        <tr id="provider-{{ provider.id }}">
+                                            <td>{{ provider.id }}</td>
+                                            <td>{{ provider.first_name }} {{ provider.last_name }}</td>
+                                            <td>
+                                                <span class="badge badge-primary">
+                                                    {{ provider.get_servicename_display }}
+                                                </span>
+                                            </td>
+                                            <td class="status-cell">
+                                                {% if provider.is_approved %}
+                                                    <span class="badge badge-success">
+                                                        <i class="fas fa-check-circle"></i> Approved
+                                                    </span>
+                                                {% elif provider.is_rejected %}
+                                                    <span class="badge badge-danger">
+                                                        <i class="fas fa-times-circle"></i> Rejected
+                                                    </span>
+                                                {% else %}
+                                                    <span class="badge badge-warning">
+                                                        <i class="fas fa-clock"></i> Pending
+                                                    </span>
+                                                {% endif %}
+                                            </td>
+                                            <td class="actions-cell">
+                                                <a href="{% url 'service_provider_view' provider.id %}" class="btn btn-sm btn-info">
+                                                    <i class="fas fa-eye"></i>View 
+                                                </a>
+                                                {% if not provider.is_approved and not provider.is_rejected %}
+                                                    <button class="btn btn-sm btn-success" 
+                                                            onclick="approveProvider({{ provider.id }}, this)">
+                                                        <i class="fas fa-check"></i> Approve
+                                                    </button>
+                                                    <button class="btn btn-sm btn-danger" 
+                                                            onclick="rejectProvider({{ provider.id }}, this)">
+                                                        <i class="fas fa-times"></i> Reject
+                                                    </button>
+                                                {% endif %}
+                                            </td>
+                                        </tr>
+                                        {% empty %}
+                                        <tr>
+                                            <td colspan="5" class="text-center">No service providers found</td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="alerts-container" style="position: fixed; top: 20px; right: 20px; z-index: 1000;"></div>
+
+    <!-- Toast Notification -->
+    <div class="toast-container" id="toast">
+        <div class="toast-message" id="toastMessage"></div>
+    </div>
+
+    <!-- Notification Modal -->
+    <div class="modal" id="notificationModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Notifications</h5>
+                <button class="modal-close" id="notificationModalClose">&times;</button>
+            </div>
+            <div class="modal-body">
+                {% for notification in unread_notifications %}
+                <div class="notification-item mb-3 p-2 border-bottom">
+                    <div class="d-flex justify-content-between">
+                        <strong>{{ notification.title }}</strong>
+                        <small class="text-muted">{{ notification.created_at|timesince }} ago</small>
+                    </div>
+                    <p>{{ notification.message }}</p>
+                    {% if notification.link %}
+                    <a href="{{ notification.link }}" class="btn btn-sm btn-primary">View</a>
+                    {% endif %}
+                </div>
+                {% empty %}
+                <p>No new notifications</p>
+                {% endfor %}
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-light" id="closeNotificationModal">Close</button>
+                <button class="btn btn-primary" id="markAllAsRead">Mark All as Read</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+    // Initialize AOS animation
+    AOS.init({
+        duration: 800,
+        easing: 'ease-in-out',
+        once: true
+    });
+
+    // Global variables
+    let serviceChart, approvalChart;
+    let currentFilter = 'month';
+    let sidebarCollapsed = localStorage.getItem('sidebarCollapsed') === 'true';
+    let isMobile = window.innerWidth <= 992;
+
+    // Initialize the dashboard when DOM is loaded
+    document.addEventListener('DOMContentLoaded', function() {
+        // Set initial sidebar state
+        if (sidebarCollapsed && !isMobile) {
+            document.body.classList.add('sidebar-collapsed');
+        }
+
+        // Hide loader with animation
+        setTimeout(function() {
+            document.getElementById('loader').classList.add('hidden');
+            setTimeout(function() {
+                document.getElementById('loader').style.display = 'none';
+            }, 300);
+        }, 500);
+        
+        // Initialize all components
+        initializeCharts();
+        setupEventListeners();
+        
+        // Set up periodic refresh (every 2 minutes)
+        setInterval(updateCharts, 120000);
+    });
+
+    // Initialize charts
+    function initializeCharts() {
+        // Service Distribution Chart
+        const serviceCtx = document.getElementById('serviceChart').getContext('2d');
+        serviceChart = new Chart(serviceCtx, {
+            type: 'bar',
+            data: {
+                labels: [
+                    'Plumbers', 'Electricians', 'Carpenters', 
+                    'Painters', 'Welder', 'Cable', 
+                    'Internet', 'Groceries'
+                ],
+                datasets: [{
+                    label: 'Service Providers',
+                    data: [
+                        {{ service_counts.plumber }},
+                        {{ service_counts.electrician }},
+                        {{ service_counts.carpenter }},
+                        {{ service_counts.painter }},
+                        {{ service_counts.welder }},
+                        {{ service_counts.Cable }},
+                        {{ service_counts.internet }},
+                        {{ service_counts.groceries }}
+                    ],
+                    backgroundColor: 'rgba(67, 97, 238, 0.7)',
+                    borderColor: 'rgba(67, 97, 238, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return `${context.parsed.y} providers`;
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: { beginAtZero: true, ticks: { stepSize: 1 } }
+                }
+            }
+        });
+
+        // Approval Status Chart
+        const approvalCtx = document.getElementById('approvalChart').getContext('2d');
+        approvalChart = new Chart(approvalCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Approved', 'Pending', 'Rejected'],
+                datasets: [{
+                    data: [
+                        {{ approval_counts.approved }}, 
+                        {{ approval_counts.pending }},
+                        {{ approval_counts.rejected|default:1 }}
+                    ],
+                    backgroundColor: [
+                        'rgba(75, 192, 192, 0.7)',
+                        'rgba(255, 206, 86, 0.7)',
+                        'rgba(255, 99, 132, 0.7)'
+                    ],
+                    borderColor: [
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(255, 99, 132, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { position: 'right' } },
+                cutout: '70%'
+            }
+        });
+    }
+
+    // Set up all event listeners
+    function setupEventListeners() {
+        // Sidebar toggle
+        const sidebarToggle = document.getElementById('sidebarToggle');
+        const sidebar = document.getElementById('sidebar');
+        const sidebarOverlay = document.getElementById('sidebarOverlay');
+        
+        sidebarToggle.addEventListener('click', function() {
+            if (isMobile) {
+                // On mobile, toggle the sidebar with overlay
+                sidebar.classList.toggle('active');
+                sidebarOverlay.classList.toggle('active');
+                document.body.classList.toggle('no-scroll');
+            } else {
+                // On desktop, collapse/expand the sidebar
+                document.body.classList.toggle('sidebar-collapsed');
+                localStorage.setItem('sidebarCollapsed', document.body.classList.contains('sidebar-collapsed'));
+            }
+        });
+
+        // Close sidebar when clicking on overlay (mobile only)
+        sidebarOverlay.addEventListener('click', function() {
+            if (isMobile) {
+                sidebar.classList.remove('active');
+                sidebarOverlay.classList.remove('active');
+                document.body.classList.remove('no-scroll');
+            }
+        });
+
+        // User dropdown
+        document.getElementById('userDropdownToggle').addEventListener('click', function(e) {
+            e.stopPropagation();
+            document.getElementById('userDropdown').classList.toggle('show');
+        });
+
+        // Close dropdowns when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('#userDropdownToggle')) {
+                document.getElementById('userDropdown').classList.remove('show');
+            }
+        });
+
+        // Time period buttons for service chart
+        document.getElementById('weekBtn').addEventListener('click', function() {
+            currentFilter = 'week';
+            setActiveButton(this);
+            updateCharts();
+        });
+
+        document.getElementById('monthBtn').addEventListener('click', function() {
+            currentFilter = 'month';
+            setActiveButton(this);
+            updateCharts();
+        });
+
+        document.getElementById('yearBtn').addEventListener('click', function() {
+            currentFilter = 'year';
+            setActiveButton(this);
+            updateCharts();
+        });
+
+        // Notification handling
+        document.getElementById('notificationBell').addEventListener('click', function() {
+            document.getElementById('notificationModal').classList.add('show');
+        });
+
+        document.getElementById('notificationModalClose').addEventListener('click', function() {
+            document.getElementById('notificationModal').classList.remove('show');
+        });
+
+        document.getElementById('closeNotificationModal').addEventListener('click', function() {
+            document.getElementById('notificationModal').classList.remove('show');
+        });
+
+        document.getElementById('markAllAsRead').addEventListener('click', markAllNotificationsAsRead);
+
+        // Handle window resize
+        window.addEventListener('resize', handleResize);
+        handleResize();
+    }
+
+    // Handle window resize
+    function handleResize() {
+        const newIsMobile = window.innerWidth <= 992;
+        
+        if (isMobile !== newIsMobile) {
+            isMobile = newIsMobile;
+            
+            // Reset sidebar state when switching between mobile and desktop
+            const sidebar = document.getElementById('sidebar');
+            const sidebarOverlay = document.getElementById('sidebarOverlay');
+            
+            if (!isMobile) {
+                // Switching to desktop - remove mobile styles
+                sidebar.classList.remove('active');
+                sidebarOverlay.classList.remove('active');
+                document.body.classList.remove('no-scroll');
+            }
+        }
+    }
+
+    // Helper function to set active button
+    function setActiveButton(activeBtn) {
+        const buttons = document.querySelectorAll('#weekBtn, #monthBtn, #yearBtn');
+        buttons.forEach(btn => btn.classList.remove('active'));
+        activeBtn.classList.add('active');
+    }
+
+    // Update all charts
+    function updateCharts() {
+        updateServiceChart();
+        updateApprovalChart();
+    }
+
+    // Update service chart with fresh data
+    function updateServiceChart() {
+        fetch(`/api/service-providers/stats/?period=${currentFilter}`)
+            .then(response => response.json())
+            .then(data => {
+                serviceChart.data.datasets[0].data = data.data;
+                serviceChart.update();
+            })
+            .catch(error => {
+                console.error('Error updating service chart:', error);
+            });
+    }
+
+    // Update approval chart with fresh data
+    function updateApprovalChart() {
+        fetch('/api/approval-status/')
+            .then(response => response.json())
+            .then(data => {
+                approvalChart.data.datasets[0].data = data.data;
+                approvalChart.update();
+            })
+            .catch(error => {
+                console.error('Error updating approval chart:', error);
+            });
+    }
+
+    // View provider details
+    function viewProvider(id) {
+        fetch(`/api/service-providers/${id}/`)
+            .then(response => response.json())
+            .then(provider => {
+                renderProviderDetails(provider);
+                document.getElementById('providerModal').classList.add('show');
+            })
+            .catch(error => {
+                console.error('Error loading provider:', error);
+                document.getElementById('providerDetails').innerHTML = `
+                    <div class="alert alert-danger">
+                        Failed to load provider details. Please try again.
+                    </div>
+                `;
+            });
+    }
+
+    // Approval function with chart update
+    function approveProvider(providerId, buttonElement) {
+        const row = buttonElement.closest('tr');
+        const originalHtml = buttonElement.innerHTML;
+
+        buttonElement.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+        buttonElement.disabled = true;
+
+        fetch(`/approve-provider/${providerId}/`, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': getCookie('csrftoken'),
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                row.querySelector('.status-cell').innerHTML = data.status_badge;
+                row.querySelector('.actions-cell').innerHTML = `
+                    <button class="btn btn-sm btn-info" onclick="viewProvider(${providerId})">
+                        <i class="fas fa-eye"></i> View
+                    </button>
+                `;
+                updateApprovalChart(); // Update the chart
+                showAlert('Provider approved successfully!', 'success');
+            } else {
+                showAlert(data.message || 'Error approving provider', 'danger');
+                buttonElement.innerHTML = originalHtml;
+                buttonElement.disabled = false;
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            showAlert('Failed to approve provider', 'danger');
+            buttonElement.innerHTML = originalHtml;
+            buttonElement.disabled = false;
+        });
+    }
+
+    // Rejection function with chart update
+    function rejectProvider(providerId, buttonElement) {
+        const row = buttonElement.closest('tr');
+        const originalHtml = buttonElement.innerHTML;
+
+        buttonElement.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+        buttonElement.disabled = true;
+
+        fetch(`/reject-provider/${providerId}/`, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': getCookie('csrftoken'),
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                row.querySelector('.status-cell').innerHTML = data.status_badge;
+                row.querySelector('.actions-cell').innerHTML = `
+                    <button class="btn btn-sm btn-info" onclick="viewProvider(${providerId})">
+                        <i class="fas fa-eye"></i> View
+                    </button>
+                `;
+                updateApprovalChart(); // Update the chart
+                showAlert('Provider rejected successfully!', 'success');
+            } else {
+                showAlert(data.message || 'Error rejecting provider', 'danger');
+                buttonElement.innerHTML = originalHtml;
+                buttonElement.disabled = false;
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            showAlert('Failed to reject provider', 'danger');
+            buttonElement.innerHTML = originalHtml;
+            buttonElement.disabled = false;
+        });
+    }
+
+    // Helper functions
+    function showAlert(message, type) {
+        const toast = document.getElementById('toast');
+        const toastMessage = document.getElementById('toastMessage');
+        
+        toastMessage.textContent = message;
+        toastMessage.className = 'toast-message ' + type;
+        toast.style.display = 'block';
+        
+        setTimeout(() => {
+            toast.style.display = 'none';
+        }, 3000);
+    }
+
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+    function markAllNotificationsAsRead() {
+        // Implementation for marking notifications as read
+        console.log('Marking all notifications as read');
+        // You would typically make an AJAX call here
+        document.getElementById('notificationModal').classList.remove('show');
+    }
+    </script>
+</body>
+</html>

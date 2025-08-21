@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+    <title>{{ page_title }}</title>
+    <link rel="stylesheet" href="{% static 'css/s_view.css' %}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
+</head>
+<body>
+    <div class="container">
+        <div class="profile-card">
+            <div class="profile-header">
+                <div class="profile-img-container">
+                    {% if provider.service_image %}
+                        <img src="{{ provider.service_image.url }}" class="profile-img" alt="{{ provider.first_name }} {{ provider.last_name }}">
+                    {% else %}
+                        <div class="profile-img profile-img-placeholder">
+                            <i class="fas fa-user"></i>
+                        </div>
+                    {% endif %}
+                </div>
+                
+                <h1 class="profile-name">{{ provider.first_name }} {{ provider.last_name }}</h1>
+                <p class="profile-title">{{ servicename }}</p>
+                
+                <div>
+                    {% if is_verified %}
+                    <span class="status-badge verified-badge">
+                        <i class="fas fa-check-circle"></i> Verified Provider
+                    </span>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <div class="detail-section">
+                <h2 class="section-title"><i class="fas fa-info-circle"></i> Basic Information</h2>
+                <div class="detail-grid">
+                    <div class="detail-item">
+                        <div class="detail-label">Email Address</div>
+                        <div class="detail-value">{{ provider.email }}</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Phone Number</div>
+                        <div class="detail-value">{{ provider.Phoneno }}</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Physical Address</div>
+                        <div class="detail-value">{{ provider.address }}</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Member Since</div>
+                        <div class="detail-value">No provided</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="detail-section">
+                <h2 class="section-title"><i class="fas fa-briefcase"></i> Service Details</h2>
+                <div class="detail-item">
+                    <div class="detail-label">Service Type</div>
+                    <div class="detail-value">{{ servicename }}</div>
+                </div>
+                
+                {% if provider.description %}
+                <div class="detail-item">
+                    <div class="detail-label">Service Description</div>
+                    <div class="description-box">
+                        {{ provider.description }}
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        
+        <div class="action-buttons">
+            <a href="{% url 'dashboard' %}" class="back-btn">
+                <i class="fas fa-arrow-left"></i> Back to Dashboard
+            </a>
+        </div>
+    </div>
+</body>
+</html>

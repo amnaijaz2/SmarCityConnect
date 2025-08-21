@@ -1,0 +1,806 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Service Providers | SmartCityConnect</title>
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- AOS Animation -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/serviceprovider.css' %}">
+    <link rel="icon" href="{% static 'media/location.jpg'%}" />
+
+</head>
+<body>
+    <!-- Sidebar -->
+    <div id="sidebar">
+        <div class="sidebar-brand">
+            <img src="{% static 'media/location.JPG' %}" alt="Logo">
+            <span>SmartCityConnect</span>
+        </div>
+        <div class="sidebar-nav">
+            <div class="nav-item">
+                <a href="{% url 'dashboard' %}" class="nav-link">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="{% url 'service_providers' %}" class="nav-link active">
+                    <i class="fas fa-user-tie"></i>
+                    <span>Service Providers</span>
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="{%url 'customers'%}" class="nav-link">
+                    <i class="fas fa-users"></i>
+                    <span>Customers</span>
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="{% url 'logout' %}" class="nav-link">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div id="content">
+        <!-- Top Navigation -->
+        <nav class="topbar">
+            <button class="toggle-btn" id="sidebarToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="topbar-right">
+               <div> <h1>SmartCityConnect</h1></div>
+                <div class="user-info" id="userDropdownToggle">
+                    <img src="{% static 'images/admin-avatar.jpg' %}" alt="Admin">
+                    <span>{{ request.user.get_full_name }}</span>
+                    <div class="user-dropdown" id="userDropdown">
+                        <a href="#"><i class="fas fa-user"></i> Profile</a>
+                        <a href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Page Content -->
+        <div class="container-fluid">
+            <!-- Page Header -->
+            <div class="page-header">
+                <div>
+                    <h2>Service Providers</h2>
+                    <ul class="breadcrumb">
+                        <li><a href="{% url 'dashboard' %}">Home</a></li>
+                        <li class="active">Service Providers</li>
+                    </ul>
+                </div>
+                <a href="{% url 'ServiceProviderRegistration'%}" class="btn btn-primary btn-pill" id="addProviderBtn">
+                    <i class="fas fa-plus"></i> Add Provider
+                </a>
+            </div>
+
+          <!-- Filter Section -->
+<div class="filter-section" data-aos="fade-up" data-aos-duration="500">
+    <div class="filter-row">
+        <div class="filter-group">
+            <label for="serviceType" class="filter-label">Service Type</label>
+            <select id="serviceType" class="filter-select">
+                <option value="">All Services</option>
+                <option value="plumber">Plumber</option>
+                <option value="electrician">Electrician</option>
+                <option value="carpenter">Carpenter</option>
+                <option value="painter">Painter</option>
+               
+                <option value="internet">Internet Service</option>
+                <option value="groceries">Groceries</option>
+            </select>
+        </div>
+        <div class="filter-group">
+            <label for="approvalStatus" class="filter-label">Approval Status</label>
+            <select id="approvalStatus" class="filter-select">
+                <option value="">All Statuses</option>
+                <option value="approved">Approved</option>
+                <option value="pending">Pending</option>
+                <option value="rejected">Rejected</option>
+            </select>
+        </div>
+        <div class="filter-group">
+            <label for="searchKeyword" class="filter-label">Search</label>
+            <input type="text" id="searchKeyword" class="filter-input" placeholder="Name, phone, or location">
+        </div>
+    </div>
+    <div class="filter-actions">
+        <button class="btn btn-light" id="resetFiltersBtn">
+            <i class="fas fa-sync-alt"></i> Reset
+        </button>
+        <button class="btn btn-primary" id="applyFiltersBtn">
+            <i class="fas fa-filter"></i> Apply Filters
+        </button>
+    </div>
+</div>
+
+            <!-- Service Providers Table -->
+            <div class="card" data-aos="fade-up" data-aos-duration="600">
+                <div class="card-header">
+                    <h5>All Service Providers</h5>
+                    <div>
+                        <span class="mr-2">Total: {{ providers.paginator.count }}</span>
+                        <button class="btn btn-sm btn-outline-primary">
+                            <i class="fas fa-download"></i> Export
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    {% if providers %}
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Provider</th>
+                                    <th>Service</th>
+                                    <th>Contact</th>
+                                    <th>Location</th>
+                                    <th>Status</th>
+                                    <th>Rating</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for provider in providers %}
+                                <tr data-provider-id="{{ provider.id }}" data-aos="fade-up" data-aos-duration="{{ forloop.counter|add:2 }}00">
+                                    <td>{{ provider.id }}</td>
+                                    <td>
+                                        <div class="user-info-cell">
+                                            <img src="{% if provider.service_images %}{{ provider.service_images.url }}{% else %}{% static 'images/default-avatar.jpg' %}{% endif %}" 
+                                            alt="{{ provider.first_name }} {{ provider.last_name }}" 
+                                            class="table-img">
+                                            <div class="user-details">
+                                                <span class="user-name">{{ provider.get_full_name }}</span>
+                                                <span class="user-username">@{{ provider.username }}</span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <span class="badge badge-primary">
+                                            <i class="fas fa-tools"></i> {{ provider.get_servicename_display }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <div><i class="fas fa-phone-alt mr-1"></i> {{ provider.Phoneno }}</div>
+                                        <small><i class="fas fa-envelope mr-1"></i> {{ provider.email }}</small>
+                                    </td>
+                                    <td>
+                                        <div><i class="fas fa-map-marker-alt mr-1"></i> {{ provider.address|truncatechars:20 }}</div>
+                                    </td>
+                                    <td>
+                                        {% if provider.is_approved %}
+                                            <span class="status-badge approved">
+                                                <i class="fas fa-check-circle"></i> Approved
+                                            </span>
+                                        {% elif provider.is_rejected %}
+                                            <span class="status-badge rejected">
+                                                <i class="fas fa-times-circle"></i> Rejected
+                                            </span>
+                                        {% else %}
+                                            <span class="status-badge pending">
+                                                <i class="fas fa-clock"></i> Pending
+                                            </span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <div class="rating">
+                                            <div class="rating-stars">
+                                                {% for i in "12345" %}
+                                                    {% if i|add:0 <= provider.rating|add:0 %}
+                                                        <i class="fas fa-star"></i>
+                                                    {% else %}
+                                                        <i class="far fa-star"></i>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </div>
+                                            <span class="rating-value">({{ provider.rating|floatformat:1 }})</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="action-buttons">
+                                            <a href="{% url 'service_provider_view' provider.id %}" class="btn btn-sm btn-info">
+                                                <i class="fas fa-eye"></i>
+                                            </a>
+                                            <!-- Edit Button -->
+    <a href="{% url 'edit_provider' provider.id %}" class="btn btn-sm btn-primary ml-2" title="Edit">
+        <i class="fas fa-edit"></i>
+    </a>
+                                            {% if not provider.is_approved and not provider.is_rejected %}
+                                                <button class="btn btn-sm btn-success" onclick="approveProvider({{ provider.id }})">
+                                                    <i class="fas fa-check"></i>
+                                                </button>
+                                                <button class="btn btn-sm btn-danger" onclick="rejectProvider({{ provider.id }})">
+                                                    <i class="fas fa-times"></i>
+                                                </button>
+                                            {% elif provider.is_rejected %}
+                                                <button class="btn btn-sm btn-success" onclick="approveProvider({{ provider.id }})">
+                                                    <i class="fas fa-check"></i>
+                                                </button>
+                                            {% elif provider.is_approved %}
+                                                <button class="btn btn-sm btn-danger" onclick="rejectProvider({{ provider.id }})">
+                                                    <i class="fas fa-times"></i>
+                                                </button>
+                                            {% endif %}
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Pagination -->
+                    {% if providers.has_other_pages %}
+                    <div class="pagination">
+                        {% if providers.has_previous %}
+                            <li class="page-item">
+                                <a href="?page=1" class="page-link">
+                                    <i class="fas fa-angle-double-left"></i>
+                                </a>
+                            </li>
+                            <li class="page-item">
+                                <a href="?page={{ providers.previous_page_number }}" class="page-link">
+                                    <i class="fas fa-angle-left"></i>
+                                </a>
+                            </li>
+                        {% endif %}
+
+                        {% for num in providers.paginator.page_range %}
+                            {% if providers.number == num %}
+                                <li class="page-item active">
+                                    <a href="?page={{ num }}" class="page-link">{{ num }}</a>
+                                </li>
+                            {% elif num > providers.number|add:'-3' and num < providers.number|add:'3' %}
+                                <li class="page-item">
+                                    <a href="?page={{ num }}" class="page-link">{{ num }}</a>
+                                </li>
+                            {% endif %}
+                        {% endfor %}
+
+                        {% if providers.has_next %}
+                            <li class="page-item">
+                                <a href="?page={{ providers.next_page_number }}" class="page-link">
+                                    <i class="fas fa-angle-right"></i>
+                                </a>
+                            </li>
+                            <li class="page-item">
+                                <a href="?page={{ providers.paginator.num_pages }}" class="page-link">
+                                    <i class="fas fa-angle-double-right"></i>
+                                </a>
+                            </li>
+                        {% endif %}
+                    </div>
+                    {% endif %}
+                    {% else %}
+                    <div class="empty-state">
+                        <i class="fas fa-user-tie"></i>
+                        <h5>No Service Providers Found</h5>
+                        <p>There are currently no service providers registered in the system.</p>
+                        <button class="btn btn-primary" id="addProviderBtnEmpty">
+                            <i class="fas fa-plus"></i> Add New Provider
+                        </button>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Approval Confirmation Modal -->
+    <div class="modal" id="approvalModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Approve Service Provider</h5>
+                <button class="modal-close" id="closeApprovalModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to approve this service provider? They will gain full access to the system.</p>
+                <div class="provider-preview">
+                    <img id="modalProviderImage" src="{% static 'images/default-avatar.jpg' %}" alt="Provider">
+                    <div class="provider-info">
+                        <h5 id="modalProviderName">Loading...</h5>
+                        <p id="modalProviderService">Loading service...</p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-light" id="cancelApprovalBtn">Cancel</button>
+                <button class="btn btn-success" id="confirmApprovalBtn">
+                    <i class="fas fa-check"></i> Approve Provider
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Rejection Confirmation Modal -->
+    <div class="modal" id="rejectionModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Reject Service Provider</h5>
+                <button class="modal-close" id="closeRejectionModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to reject this service provider? They will not be able to access the system.</p>
+                <div class="provider-preview">
+                    <img id="rejectModalProviderImage" src="{% static 'images/default-avatar.jpg' %}" alt="Provider">
+                    <div class="provider-info">
+                        <h5 id="rejectModalProviderName">Loading...</h5>
+                        <p id="rejectModalProviderService">Loading service...</p>
+                    </div>
+                </div>
+                <div class="form-group mt-3">
+                    <label for="rejectionReason">Reason for Rejection (Optional)</label>
+                    <textarea id="rejectionReason" class="filter-input" rows="3" placeholder="Provide reason for rejection..."></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-light" id="cancelRejectionBtn">Cancel</button>
+                <button class="btn btn-danger" id="confirmRejectionBtn">
+                    <i class="fas fa-times"></i> Reject Provider
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div class="loader" id="loader">
+        <div class="loader-content">
+            <div class="spinner"></div>
+            <h4>Loading...</h4>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+    // Initialize AOS animation
+AOS.init({
+    duration: 800,
+    easing: 'ease-in-out',
+    once: true
+});
+
+// Sidebar state management
+let sidebarCollapsed = localStorage.getItem('sidebarCollapsed') === 'true';
+if (sidebarCollapsed) {
+    document.body.classList.add('sidebar-collapsed');
+}
+
+// Global variables
+let currentProviderId = null;
+let providerRows = [];
+let searchTimer = null;
+
+// DOM Content Loaded
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize UI elements
+    initializeSidebar();
+    initializeFilters();
+    setupEventListeners();
+    
+    // Hide loader when page is fully loaded
+    setTimeout(function() {
+        document.getElementById('loader').classList.add('hidden');
+        setTimeout(function() {
+            document.getElementById('loader').style.display = 'none';
+        }, 300);
+    }, 500);
+});
+
+/* ===== SIDEBAR FUNCTIONALITY ===== */
+function initializeSidebar() {
+    const sidebar = document.getElementById('sidebar');
+    const sidebarToggle = document.getElementById('sidebarToggle');
+    const content = document.getElementById('content');
+    
+    // Create overlay element
+    const sidebarOverlay = document.createElement('div');
+    sidebarOverlay.className = 'sidebar-overlay';
+    document.body.appendChild(sidebarOverlay);
+
+    // Toggle sidebar on button click
+    sidebarToggle.addEventListener('click', function() {
+        if (window.innerWidth <= 1200) {
+            // Mobile behavior - toggle sidebar with overlay
+            sidebar.classList.toggle('active');
+            sidebarOverlay.classList.toggle('active');
+        } else {
+            // Desktop behavior - collapse/expand sidebar
+            document.body.classList.toggle('sidebar-collapsed');
+            localStorage.setItem('sidebarCollapsed', document.body.classList.contains('sidebar-collapsed'));
+        }
+    });
+
+    // Close sidebar when clicking on overlay
+    sidebarOverlay.addEventListener('click', function() {
+        sidebar.classList.remove('active');
+        sidebarOverlay.classList.remove('active');
+    });
+
+    // Close sidebar when clicking on nav links (for mobile)
+    const navLinks = document.querySelectorAll('.nav-link');
+    navLinks.forEach(link => {
+        link.addEventListener('click', function() {
+            if (window.innerWidth <= 1200) {
+                sidebar.classList.remove('active');
+                sidebarOverlay.classList.remove('active');
+            }
+        });
+    });
+
+    // Handle window resize
+    window.addEventListener('resize', function() {
+        if (window.innerWidth > 1200) {
+            // Ensure sidebar is visible on large screens
+            sidebar.classList.remove('active');
+            sidebarOverlay.classList.remove('active');
+        }
+    });
+}
+
+/* ===== FILTER FUNCTIONALITY ===== */
+function initializeFilters() {
+    const serviceTypeSelect = document.getElementById('serviceType');
+    const approvalStatusSelect = document.getElementById('approvalStatus');
+    const searchKeywordInput = document.getElementById('searchKeyword');
+    const resetFiltersBtn = document.getElementById('resetFiltersBtn');
+    const applyFiltersBtn = document.getElementById('applyFiltersBtn');
+    
+    // Get all provider rows once when page loads
+    providerRows = Array.from(document.querySelectorAll('tbody tr'));
+    
+    // Set up event listeners
+    serviceTypeSelect.addEventListener('change', filterProviders);
+    approvalStatusSelect.addEventListener('change', filterProviders);
+    applyFiltersBtn.addEventListener('click', filterProviders);
+    
+    searchKeywordInput.addEventListener('input', function() {
+        clearTimeout(searchTimer);
+        searchTimer = setTimeout(filterProviders, 300);
+    });
+    
+    resetFiltersBtn.addEventListener('click', function() {
+        serviceTypeSelect.value = '';
+        approvalStatusSelect.value = '';
+        searchKeywordInput.value = '';
+        filterProviders();
+    });
+    
+    // Apply initial filters from URL if any
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.has('service')) {
+        serviceTypeSelect.value = urlParams.get('service');
+    }
+    if (urlParams.has('status')) {
+        approvalStatusSelect.value = urlParams.get('status');
+    }
+    if (urlParams.has('search')) {
+        searchKeywordInput.value = urlParams.get('search');
+    }
+    
+    // Run initial filter
+    filterProviders();
+}
+
+function filterProviders() {
+    const serviceType = document.getElementById('serviceType').value.toLowerCase();
+    const approvalStatus = document.getElementById('approvalStatus').value.toLowerCase();
+    const searchKeyword = document.getElementById('searchKeyword').value.toLowerCase();
+    
+    providerRows.forEach(row => {
+        // Get the relevant data from each row
+        const serviceBadge = row.querySelector('.badge');
+        const statusBadge = row.querySelector('.status-badge');
+        const rowText = row.textContent.toLowerCase();
+        
+        const serviceText = serviceBadge ? serviceBadge.textContent.toLowerCase() : '';
+        const statusText = statusBadge ? statusBadge.textContent.toLowerCase() : '';
+        
+        // Check if row matches all active filters
+        const matchesService = !serviceType || serviceText.includes(serviceType);
+        const matchesStatus = !approvalStatus || statusText.includes(approvalStatus);
+        const matchesSearch = !searchKeyword || rowText.includes(searchKeyword);
+        
+        // Show/hide row based on filters
+        row.style.display = (matchesService && matchesStatus && matchesSearch) ? '' : 'none';
+    });
+}
+
+/* ===== EVENT LISTENERS SETUP ===== */
+function setupEventListeners() {
+    // User dropdown toggle
+    const userDropdownToggle = document.getElementById('userDropdownToggle');
+    const userDropdown = document.getElementById('userDropdown');
+    
+    if (userDropdownToggle) {
+        userDropdownToggle.addEventListener('click', function() {
+            userDropdown.classList.toggle('show');
+        });
+        
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!userDropdownToggle.contains(e.target) && !userDropdown.contains(e.target)) {
+                userDropdown.classList.remove('show');
+            }
+        });
+    }
+    
+    // Approval modal handlers
+    document.getElementById('closeApprovalModal')?.addEventListener('click', closeApprovalModal);
+    document.getElementById('cancelApprovalBtn')?.addEventListener('click', closeApprovalModal);
+    document.getElementById('confirmApprovalBtn')?.addEventListener('click', confirmApproval);
+    
+    // Rejection modal handlers
+    document.getElementById('closeRejectionModal')?.addEventListener('click', closeRejectionModal);
+    document.getElementById('cancelRejectionBtn')?.addEventListener('click', closeRejectionModal);
+    document.getElementById('confirmRejectionBtn')?.addEventListener('click', confirmRejection);
+    
+    // Add provider buttons
+    const addProviderBtns = [
+        document.getElementById('addProviderBtn'),
+        document.getElementById('addProviderBtnEmpty')
+    ];
+    
+    addProviderBtns.forEach(btn => {
+        if (btn) {
+            btn.addEventListener('click', function() {
+                showLoader();
+                window.location.href = '/service-providers/new/';
+            });
+        }
+    });
+}
+
+/* ===== PROVIDER APPROVAL/REJECTION ===== */
+function approveProvider(id) {
+    currentProviderId = id;
+    const providerRow = document.querySelector(`tr[data-provider-id="${id}"]`);
+    
+    if (providerRow) {
+        const img = providerRow.querySelector('.table-img');
+        const name = providerRow.querySelector('.user-name');
+        const service = providerRow.querySelector('.badge');
+        
+        if (img) document.getElementById('modalProviderImage').src = img.src;
+        if (name) document.getElementById('modalProviderName').textContent = name.textContent;
+        if (service) document.getElementById('modalProviderService').textContent = service.textContent.trim();
+    }
+    
+    document.getElementById('approvalModal').classList.add('show');
+}
+
+function closeApprovalModal() {
+    document.getElementById('approvalModal').classList.remove('show');
+    currentProviderId = null;
+}
+
+async function confirmApproval() {
+    if (!currentProviderId) return;
+    
+    const approveBtn = document.getElementById('confirmApprovalBtn');
+    const originalBtnContent = approveBtn.innerHTML;
+    approveBtn.innerHTML = '<i class="fas fa-spinner btn-spinner"></i> Processing...';
+    approveBtn.disabled = true;
+    
+    try {
+        const response = await fetch(`/approve-provider/${currentProviderId}/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCSRFToken(),
+            },
+            body: JSON.stringify({
+                action: 'approve'
+            })
+        });
+
+        const data = await response.json();
+        
+        if (!response.ok || !data.success) {
+            throw new Error(data.message || 'Failed to approve provider');
+        }
+
+        showToast('Provider approved successfully!', 'success');
+        
+        // Update the UI
+        const providerRow = document.querySelector(`tr[data-provider-id="${currentProviderId}"]`);
+        if (providerRow) {
+            // Update status badge
+            const statusBadge = providerRow.querySelector('.status-badge');
+            if (statusBadge) {
+                statusBadge.className = 'status-badge approved';
+                statusBadge.innerHTML = '<i class="fas fa-check-circle"></i> Approved';
+            }
+            
+            // Remove approve button if exists
+            const approveBtn = providerRow.querySelector('.btn-success');
+            if (approveBtn) approveBtn.remove();
+            
+            // Add reject button if not already present
+            const actionCell = providerRow.querySelector('.action-buttons');
+            if (actionCell && !actionCell.querySelector('.btn-danger')) {
+                const rejectBtn = document.createElement('button');
+                rejectBtn.className = 'btn btn-sm btn-danger';
+                rejectBtn.innerHTML = '<i class="fas fa-times"></i>';
+                rejectBtn.onclick = () => rejectProvider(currentProviderId);
+                actionCell.appendChild(rejectBtn);
+            }
+        }
+        
+        closeApprovalModal();
+        filterProviders(); // Refresh the filters
+        
+    } catch (error) {
+        console.error('Approval error:', error);
+        showToast(error.message, 'error');
+    } finally {
+        approveBtn.innerHTML = originalBtnContent;
+        approveBtn.disabled = false;
+    }
+}
+
+function rejectProvider(id) {
+    currentProviderId = id;
+    const providerRow = document.querySelector(`tr[data-provider-id="${id}"]`);
+    
+    if (providerRow) {
+        const img = providerRow.querySelector('.table-img');
+        const name = providerRow.querySelector('.user-name');
+        const service = providerRow.querySelector('.badge');
+        
+        if (img) document.getElementById('rejectModalProviderImage').src = img.src;
+        if (name) document.getElementById('rejectModalProviderName').textContent = name.textContent;
+        if (service) document.getElementById('rejectModalProviderService').textContent = service.textContent.trim();
+    }
+    
+    document.getElementById('rejectionModal').classList.add('show');
+}
+
+function closeRejectionModal() {
+    document.getElementById('rejectionModal').classList.remove('show');
+    document.getElementById('rejectionReason').value = '';
+    currentProviderId = null;
+}
+
+async function confirmRejection() {
+    if (!currentProviderId) return;
+    
+    const rejectBtn = document.getElementById('confirmRejectionBtn');
+    const originalBtnContent = rejectBtn.innerHTML;
+    rejectBtn.innerHTML = '<i class="fas fa-spinner btn-spinner"></i> Processing...';
+    rejectBtn.disabled = true;
+    
+    const reason = document.getElementById('rejectionReason').value;
+    
+    try {
+        const response = await fetch(`/reject-provider/${currentProviderId}/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCSRFToken(),
+            },
+            body: JSON.stringify({
+                action: 'reject',
+                reason: reason
+            })
+        });
+
+        const data = await response.json();
+        
+        if (!response.ok || !data.success) {
+            throw new Error(data.message || 'Failed to reject provider');
+        }
+
+        showToast('Provider rejected successfully!', 'success');
+        
+        // Update the UI
+        const providerRow = document.querySelector(`tr[data-provider-id="${currentProviderId}"]`);
+        if (providerRow) {
+            // Update status badge
+            const statusBadge = providerRow.querySelector('.status-badge');
+            if (statusBadge) {
+                statusBadge.className = 'status-badge rejected';
+                statusBadge.innerHTML = '<i class="fas fa-times-circle"></i> Rejected';
+            }
+            
+            // Remove reject button if exists
+            const rejectBtn = providerRow.querySelector('.btn-danger');
+            if (rejectBtn) rejectBtn.remove();
+            
+            // Add approve button if not already present
+            const actionCell = providerRow.querySelector('.action-buttons');
+            if (actionCell && !actionCell.querySelector('.btn-success')) {
+                const approveBtn = document.createElement('button');
+                approveBtn.className = 'btn btn-sm btn-success';
+                approveBtn.innerHTML = '<i class="fas fa-check"></i>';
+                approveBtn.onclick = () => approveProvider(currentProviderId);
+                actionCell.appendChild(approveBtn);
+            }
+        }
+        
+        closeRejectionModal();
+        filterProviders(); // Refresh the filters
+        
+    } catch (error) {
+        console.error('Rejection error:', error);
+        showToast(error.message, 'error');
+    } finally {
+        rejectBtn.innerHTML = originalBtnContent;
+        rejectBtn.disabled = false;
+    }
+}
+
+/* ===== UTILITY FUNCTIONS ===== */
+function showLoader() {
+    document.getElementById('loader').style.display = 'flex';
+    document.getElementById('loader').classList.remove('hidden');
+}
+
+function hideLoader() {
+    document.getElementById('loader').classList.add('hidden');
+    setTimeout(() => {
+        document.getElementById('loader').style.display = 'none';
+    }, 300);
+}
+
+function showToast(message, type) {
+    const toastContainer = document.getElementById('toastContainer');
+    const toast = document.createElement('div');
+    toast.className = `toast-message ${type}`;
+    
+    let icon = '';
+    if (type === 'success') {
+        icon = '<i class="fas fa-check-circle"></i>';
+    } else if (type === 'error') {
+        icon = '<i class="fas fa-exclamation-circle"></i>';
+    } else {
+        icon = '<i class="fas fa-info-circle"></i>';
+    }
+    
+    toast.innerHTML = `${icon} <span>${message}</span>`;
+    toastContainer.appendChild(toast);
+    
+    // Remove toast after animation completes
+    setTimeout(() => {
+        toast.remove();
+    }, 3000);
+}
+
+function getCookie(name) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(';').shift();
+}
+
+function getCSRFToken() {
+    return getCookie('csrftoken');
+}
+
+/* ===== PROVIDER VIEW/EDIT FUNCTIONS ===== */
+function viewProvider(id) {
+    showLoader();
+    window.location.href = `/service-providers/${id}/`;
+}
+
+function editProvider(id) {
+    showLoader();
+    window.location.href = `/service-providers/${id}/edit/`;
+}
+    </script>
+</body>
+</html>

@@ -1,0 +1,201 @@
+{% load static%}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+    integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  />
+  <link  rel="icon"  href="{% static 'media/location.jpg'%}"> 
+  <link  rel="stylesheet"  href="{% static 'css/login.css'%}"> 
+  <script src="{% static 'js/login.js' %}" defer></script>
+  <title>SmartCityConnect</title>
+    
+</head>
+<body>
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
+    <!--Navbar-->
+  
+    <div class="container-fluid bg-primary navbar-container">
+      <div class="container">
+        <div class="row">
+          <div class="col-12">
+            <nav class="navbar navbar-expand-lg navbar-dark">
+              <a
+                class="navbar-brand text-light fw-bold d-flex align-items-center brand-logo"
+                href="{% url 'Home'%}"
+              >
+                <span class="logo-text">SmartCityConnect</span>
+                <i class="fa-solid fa-location-dot logo-icon ms-2"></i>
+              </a>
+              <button
+                class="navbar-toggler"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#navbarNav"
+              >
+                <i class="fa-solid fa-bars text-white"></i>
+              </button>
+              <div
+                class="collapse navbar-collapse justify-content-lg-end"
+                id="navbarNav"
+              >
+                <ul class="navbar-nav nav-items">
+                  <li class="nav-item">
+                    <a
+                      href="{% url 'Home'%}"
+                      class="nav-link text-light fw-bold nav-link-hover"
+                    >
+                      <span>Home</span>
+                    </a>
+                  </li>
+                   <li class="nav-item">
+                    <a href="{% url 'About'%}" class="nav-link text-light fw-bold nav-link-hover">
+                      <span>About</span>
+                    </a>
+                  </li>
+                 
+                  <li class="nav-item">
+                    <a
+                      href="{% url 'Loginpage'%}"
+                      class="nav-link text-light fw-bold nav-link-hover login-btn"
+                    >
+                      <span>Login</span>
+                      <i class="fa-solid fa-arrow-right-to-bracket ms-1"></i>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </div>
+ 
+ 
+    <!--form Login-->
+    <div class="login-hero">
+      <!-- Animated Particles Background -->
+      <div class="particles">
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+      </div>
+    
+      <!-- Glassmorphism Login Card -->
+      <div class="login-glass-card">
+        <!-- Animated Header -->
+        <div class="login-header">
+          <div class="login-icon">
+            <i class="fas fa-user-astronaut"></i>
+          </div>
+          <h1 class="login-title">Welcome Back!</h1>
+          <p class="login-subtitle">Login to access your account</p>
+        </div>
+    
+        <!-- Messages -->
+        {% if messages %}
+        <div class="message-container">
+          {% for message in messages %}
+          <div class="alert-message pop">
+            <i class="fas fa-info-circle"></i>
+            <span>{{ message }}</span>
+          </div>
+          {% endfor %}
+        </div>
+        {% endif %}
+    
+        <!-- Login Form -->
+        <form class="login-form" method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+      <!--next url give to the next part  where user want to login-->    
+      <input type="hidden" name="next" value='{{next_url}}'>
+          <!-- Username Field -->
+          <div class="form-group floating">
+            <input type="text" id="username" name="username" required>
+            <label for="username">Username</label>
+            <div class="underline"></div>
+            <i class="fas fa-user input-icon"></i>
+          </div>
+    
+          <!-- Password Field -->
+          <div class="form-group floating">
+            <input type="password" id="password" name="password" required>
+            <label for="password">Password</label>
+            <div class="underline"></div>
+            <i class="fas fa-lock input-icon"></i>
+            <button type="button" class="toggle-pw">
+              <i class="fa-solid fa-eye"></i>
+            </button>
+          </div>
+    
+          <!-- Submit Button -->
+          <button type="submit" class="login-btn">
+            <span>Login</span>
+            <i class="fas fa-paper-plane"></i>
+            <div class="btn-glow"></div>
+          </button>
+        </form>
+    
+        <!-- Alternative Options -->
+        <div class="login-options">
+          <p>Don't have an account? 
+            <a href="{% url 'CustomerReg'%}" class="option-link">Sign Up</a>
+          </p>
+          <p>Are you a Service Provider? 
+            <a href="{% url 'ServiceProviderRegistration'%}" class="option-link">Register Here</a>
+          </p>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+<!--Bottom-->
+<div class="container-fluid footer-section">
+  <div class="container">
+    <!-- Main Footer Content -->
+    <div class="footer-content">
+      <div class="footer-brand">
+        <i class="fas fa-location-dot footer-logo pulse"></i>
+        <h2 class="footer-title">SmartCityConnect</h2>
+      </div>
+      
+      <div class="footer-text">
+        <p class="footer-copyright">© 2025 SmartCityConnect. All rights reserved.</p>
+        <p class="footer-disclaimer">SmartCityConnect is an independent service provider and is not affiliated with any parent company.</p>
+        
+        <div class="footer-rewards slide-up">
+          <h5 class="rewards-title">Rewards Program</h5>
+          <p class="rewards-text">Available to customers who book services through SmartCityConnect. New and existing users welcome. No subscription required. Must be 18 years or older to participate. A user account on SmartCityConnect is required to earn rewards. Geographical exclusions may apply. Enjoy one reward per month for a year, redeemable through the SmartCityConnect app or website.</p>
+        </div>
+        
+        <div class="footer-premium slide-up" style="--delay: 0.2s">
+          <h5 class="premium-title">Premium Rewards</h5>
+          <p class="premium-text">Available to customers who book services through the SmartCityConnect app only. Maximum claim limit applies.</p>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Back to Top Button -->
+    <div class="back-to-top">
+      <a href="#top" class="top-link">
+        <span class="top-text">Back to Top</span>
+        <i class="fas fa-arrow-up top-icon"></i>
+      </a>
+    </div>
+  </div>
+</div>
+<script src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs" type="module"></script>
+</body>
+</html>

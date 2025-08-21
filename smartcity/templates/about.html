@@ -1,0 +1,812 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    
+    <!-- CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+          crossorigin="anonymous">
+    <link rel="stylesheet" 
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+          integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+          crossorigin="anonymous"
+          referrerpolicy="no-referrer" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="{% static 'media/location.jpg' %}" />
+    
+    <!-- Your CSS -->
+    <link rel="stylesheet" href="{% static 'css/About.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/home.css' %}" />
+    
+    <title>SmartCityConnect</title>
+    <style>
+        /* Enhanced Animation Styles */
+        .pulse-animation {
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .float-animation {
+            animation: float 6s ease-in-out infinite;
+        }
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        /* Enhanced Button Styles */
+        .btn-glow {
+            transition: all 0.3s ease;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        }
+        .btn-glow:hover {
+            
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* Enhanced Card Styles */
+        .service-card, .feature-card, .testimonial-card {
+            transition: all 0.3s ease;
+            border: none;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            border-radius: 12px !important;
+            overflow: hidden;
+        }
+        .service-card:hover, .feature-card:hover, .testimonial-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Enhanced Hero Section */
+        .hero-section {
+            background: linear-gradient(135deg, #4b6cb7 0%, #182848 100%);
+            color: white;
+            padding: 100px 0;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('{% static "media/dots.png" %}') repeat;
+            opacity: 0.1;
+            z-index: 0;
+        }
+        .hero-section .container {
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* Enhanced Navbar */
+        .navbar-container {
+            box-shadow: 0 2px 30px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        .nav-link-hover::after {
+            content: '';
+            display: block;
+            width: 0;
+            height: 2px;
+            background: white;
+            transition: width 0.3s;
+        }
+        .nav-link-hover:hover::after {
+            width: 100%;
+        }
+        
+        /* Enhanced Testimonials */
+        .testimonial-card {
+            position: relative;
+            background: white;
+            padding: 30px;
+        }
+        .testimonial-card::before {
+            content: '"';
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 60px;
+            color: rgba(13, 110, 253, 0.1);
+            font-family: Georgia, serif;
+            line-height: 1;
+        }
+        
+        /* Enhanced Footer */
+        .footer-section {
+            background: #0d6efd;
+            color: white;
+            padding: 60px 0 30px;
+        }
+        .footer-logo {
+            font-size: 40px;
+            color: white;
+            margin-right: 15px;
+        }
+        .footer-title {
+            display: inline-block;
+            font-size: 28px;
+            font-weight: 700;
+        }
+        .top-link {
+            display: inline-flex;
+            align-items: center;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        .top-link:hover {
+            transform: translateY(-3px);
+        }
+        .top-icon {
+            margin-left: 10px;
+            font-size: 18px;
+        }
+        /* Services Section Styles */
+.service-card {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+}
+
+.service-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+}
+
+.service-icon-container {
+    margin-bottom: 1rem;
+}
+
+.service-icon {
+    width: 70px;
+    height: 70px;
+    margin: 0 auto;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.75rem;
+    transition: all 0.3s ease;
+}
+
+.btn-glow {
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    border-width: 2px;
+}
+
+.btn-glow:hover {
+    color: black !important;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Electrician Hover Effects */
+.service-card:hover .service-icon.bg-primary.bg-opacity-10 {
+    background-color: #0d6efd !important;
+}
+
+.service-card:hover .service-icon.bg-primary.bg-opacity-10 i {
+    color: white !important;
+}
+
+.btn-outline-primary:hover {
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+}
+
+/* Carpenter Hover Effects */
+.service-card:hover .service-icon.bg-success.bg-opacity-10 {
+    background-color: #198754 !important;
+}
+
+.service-card:hover .service-icon.bg-success.bg-opacity-10 i {
+    color: white !important;
+}
+
+.btn-outline-success:hover {
+    background-color: #198754;
+    border-color: #198754;
+}
+
+/* Painter Hover Effects */
+.service-card:hover .service-icon.bg-warning.bg-opacity-10 {
+    background-color: #ffc107 !important;
+}
+
+.service-card:hover .service-icon.bg-warning.bg-opacity-10 i {
+    color: white !important;
+}
+
+.btn-outline-warning:hover {
+    background-color: #ffc107;
+    border-color: #ffc107;
+    color: #000 !important;
+}
+
+/* Internet Hover Effects */
+.service-card:hover .service-icon.bg-info.bg-opacity-10 {
+    background-color: #0dcaf0 !important;
+}
+
+.service-card:hover .service-icon.bg-info.bg-opacity-10 i {
+    color: white !important;
+}
+
+.btn-outline-info:hover {
+    background-color: #0dcaf0;
+    border-color: #0dcaf0;
+    color: #000 !important;
+}
+
+/* Animation Delays */
+[style*="animation-delay: 0.2s"] {
+    animation-delay: 0.2s !important;
+}
+
+[style*="animation-delay: 0.4s"] {
+    animation-delay: 0.4s !important;
+}
+
+[style*="animation-delay: 0.6s"] {
+    animation-delay: 0.6s !important;
+}
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <div class="container-fluid bg-primary navbar-container">
+      <div class="container">
+        <div class="row">
+          <div class="col-12">
+            <nav class="navbar navbar-expand-lg navbar-dark">
+              <a class="navbar-brand text-light fw-bold d-flex align-items-center brand-logo" href="{% url 'Home' %}">
+                <span class="logo-text">SmartCityConnect</span>
+                <i class="fa-solid fa-location-dot logo-icon ms-2"></i>
+              </a>
+              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <i class="fa-solid fa-bars text-white"></i>
+              </button>
+              <div class="collapse navbar-collapse justify-content-lg-end" id="navbarNav">
+                <ul class="navbar-nav nav-items">
+                  <li class="nav-item">
+                    <a href="{% url 'Home' %}" class="nav-link text-light fw-bold nav-link-hover">
+                      <span>Home</span>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="#" class="nav-link text-light fw-bold nav-link-hover">
+                      <span>About</span>
+                    </a>
+                  </li>
+                  
+                  {% if user.is_authenticated %}
+                  <li class="nav-item">
+                    <form method="post" action="{% url 'logout' %}" class="d-inline">
+                      {% csrf_token %}
+                      <button type="submit" class="nav-link text-light fw-bold nav-link-hover login-btn"
+                        style="background: none; border: none; cursor: pointer">
+                        <span>Logout</span>
+                        <i class="fa-solid fa-arrow-right-from-bracket ms-1"></i>
+                      </button>
+                    </form>
+                  </li>
+                  {% else %}
+                  <li class="nav-item">
+                    <a href="{% url 'Loginpage' %}" class="nav-link text-light fw-bold nav-link-hover login-btn">
+                      <span>Login</span>
+                      <i class="fa-solid fa-arrow-right-to-bracket ms-1"></i>
+                    </a>
+                  </li>
+                  {% endif %}
+                </ul>
+              </div>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Hero Section -->
+  <section class="hero-section" id="top" style="background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('{% static "media/M.jpeg" %}') no-repeat center center; background-size: cover; padding: 120px 0;">
+    <div class="container position-relative">
+        <div class="row align-items-center">
+            <div class="col-lg-6 mb-5 mb-lg-0 animate__animated animate__fadeInLeft">
+                <h1 class="display-4 fw-bold mb-4 text-white">Connecting You With Trusted Local Service Providers</h1>
+                <p class="lead mb-4 text-white-50">Find skilled professionals for all your needs or grow your business by connecting with customers in your area.</p>
+                <div class="d-flex flex-wrap gap-3">
+                    <a href="{% url 'Home' %}" class="btn btn-light btn-lg px-4 btn-glow pulse-animation">Find Services</a>
+                    <a href="{% url 'ServiceProviderRegistration' %}" class="btn btn-outline-light btn-lg px-4 btn-glow">List Your Service</a>
+                </div>
+            </div>
+            <div class="col-lg-6 animate__animated animate__fadeInRight">
+                <img src="{% static 'media/M.jpeg' %}" alt="Service Professionals" class="img-fluid rounded-4 shadow-lg float-animation">
+            </div>
+        </div>
+    </div>
+</section>
+    <!-- Services Section -->
+    <section class="py-5 my-5" id="services" style="background-color: #f8fafc;">
+        <div class="container">
+            <div class="text-center mb-5 animate__animated" data-animate="animate__fadeInDown">
+                <h2 class="fw-bold display-4 mb-3">Popular Services</h2>
+                <p class="text-muted lead">Find the perfect service provider for your needs</p>
+            </div>
+            
+            <div class="row g-4">
+                <!-- Electrician Card -->
+                <div class="col-md-6 col-lg-3 animate__animated" data-animate="animate__fadeInUp">
+                    <div class="service-card p-4 text-center h-100">
+                        <div class="service-icon-container">
+                            <div class="service-icon bg-primary bg-opacity-10">
+                                <i class="fas fa-bolt text-primary"></i>
+                            </div>
+                        </div>
+                        <h4 class="fw-bold my-3">Electricians</h4>
+                        <p class="text-muted mb-4">Skilled professionals for all your electrical needs</p>
+                        <a href="{% url 'Electricion' %}" class="btn btn-outline-primary btn-sm px-4 py-2 mt-auto btn-glow">
+                            <i class="fas fa-search me-2"></i> Find Now
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Carpenter Card -->
+                <div class="col-md-6 col-lg-3 animate__animated" data-animate="animate__fadeInUp" style="animation-delay: 0.2s;">
+                    <div class="service-card p-4 text-center h-100">
+                        <div class="service-icon-container">
+                            <div class="service-icon bg-success bg-opacity-10">
+                                <i class="fas fa-tools text-success"></i>
+                            </div>
+                        </div>
+                        <h4 class="fw-bold my-3">Carpenters</h4>
+                        <p class="text-muted mb-4">Quality woodwork and furniture repairs</p>
+                        <a href="{% url 'Carpenter' %}" class="btn btn-outline-success btn-sm px-4 py-2 mt-auto btn-glow">
+                            <i class="fas fa-search me-2"></i> Find Now
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Painter Card -->
+                <div class="col-md-6 col-lg-3 animate__animated" data-animate="animate__fadeInUp" style="animation-delay: 0.4s;">
+                    <div class="service-card p-4 text-center h-100">
+                        <div class="service-icon-container">
+                            <div class="service-icon bg-warning bg-opacity-10">
+                                <i class="fas fa-paint-roller text-warning"></i>
+                            </div>
+                        </div>
+                        <h4 class="fw-bold my-3">Painters</h4>
+                        <p class="text-muted mb-4">Interior and exterior painting services</p>
+                        <a href="{% url 'Painter' %}" class="btn btn-outline-warning btn-sm px-4 py-2 mt-auto btn-glow">
+                            <i class="fas fa-search me-2"></i> Find Now
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Internet Card -->
+                <div class="col-md-6 col-lg-3 animate__animated" data-animate="animate__fadeInUp" style="animation-delay: 0.6s;">
+                    <div class="service-card p-4 text-center h-100">
+                        <div class="service-icon-container">
+                            <div class="service-icon bg-info bg-opacity-10">
+                                <i class="fas fa-wifi text-info"></i>
+                            </div>
+                        </div>
+                        <h4 class="fw-bold my-3">Internet Services</h4>
+                        <p class="text-muted mb-4">Reliable internet service providers</p>
+                        <a href="{% url 'Internat' %}" class="btn btn-outline-info btn-sm px-4 py-2 mt-auto btn-glow">
+                            <i class="fas fa-search me-2"></i> Find Now
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="py-5" id="about" style="background-color: #f8fafc;">
+        <div class="container">
+            <div class="text-center mb-5 animate__animated" data-animate="animate__fadeIn">
+                <h2 class="fw-bold display-4 mb-3">About ServiceConnect</h2>
+                <p class="text-muted lead">Connecting service providers with customers seamlessly</p>
+            </div>
+            
+            <!-- Tabs -->
+            <ul class="nav nav-pills mb-5 justify-content-center animate__animated" data-animate="animate__fadeIn" id="about-tab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="providers-tab" onclick="switchTab('providers')" type="button">
+                        <span class="d-flex align-items-center">
+                            <i class="fas fa-tools me-2"></i> For Service Providers
+                        </span>
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="users-tab" onclick="switchTab('users')" type="button">
+                        <span class="d-flex align-items-center">
+                            <i class="fas fa-users me-2"></i> For Users
+                        </span>
+                    </button>
+                </li>
+            </ul>
+            
+            <!-- Tab Content -->
+            <div class="tab-content" id="about-tabContent">
+                <!-- Providers Tab -->
+                <div id="providers-pane" class="tab-pane active animate__animated animate__fadeIn">
+                    <div class="row align-items-center">
+                        <div class="col-lg-6 mb-5 mb-lg-0">
+                            <div class="about-image-container">
+                                <img src="{% static 'media/happy.jpeg' %}" 
+                                     alt="Service Providers" 
+                                     class="img-fluid rounded-4 shadow-lg">
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="ps-lg-5">
+                                <h3 class="fw-bold mb-4 display-6">Grow Your Business With Us</h3>
+                                
+                                <div class="d-flex mb-4">
+                                    <div class="me-4">
+                                        <div class="bg-primary bg-opacity-10 p-3 rounded-circle d-inline-flex">
+                                            <i class="fas fa-user-plus text-primary fs-4"></i>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <h5 class="fw-bold">Reach More Customers</h5>
+                                        <p class="text-muted">Connect with thousands of potential customers in your area looking for your services.</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="d-flex mb-4">
+                                    <div class="me-4">
+                                        <div class="bg-primary bg-opacity-10 p-3 rounded-circle d-inline-flex">
+                                            <i class="fas fa-chart-line text-primary fs-4"></i>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <h5 class="fw-bold">Boost Your Visibility</h5>
+                                        <p class="text-muted">Get featured in our directory and increase your online presence.</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="d-flex mb-4">
+                                    <div class="me-4">
+                                        <div class="bg-primary bg-opacity-10 p-3 rounded-circle d-inline-flex">
+                                            <i class="fas fa-comments text-primary fs-4"></i>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <h5 class="fw-bold">Direct Communication</h5>
+                                        <p class="text-muted">Receive inquiries and messages directly from potential customers.</p>
+                                    </div>
+                                </div>
+                                
+                                <a href="{% url 'ServiceProviderRegistration' %}" class="btn btn-primary btn-lg px-4 py-3 mt-2 btn-glow pulse-animation">
+                                    <span class="d-flex align-items-center justify-content-center">
+                                        <i class="fas fa-rocket me-2"></i> Register as Provider
+                                    </span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Users Tab -->
+                <div id="users-pane" class="tab-pane animate__animated animate__fadeIn">
+                    <div class="row align-items-center">
+                        <div class="col-lg-6 mb-5 mb-lg-0 order-lg-2">
+                            <div class="about-image-container">
+                                <img src="{% static 'media/customer.jpeg' %}"
+                                     alt="Users" 
+                                     class="img-fluid rounded-4 shadow-lg">
+                            </div>
+                        </div>
+                        <div class="col-lg-6 order-lg-1">
+                            <div class="pe-lg-5">
+                                <h3 class="fw-bold mb-4 display-6">Find Trusted Services Near You</h3>
+                                
+                                <div class="d-flex mb-4">
+                                    <div class="me-4">
+                                        <div class="bg-primary bg-opacity-10 p-3 rounded-circle d-inline-flex">
+                                            <i class="fas fa-search text-primary fs-4"></i>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <h5 class="fw-bold">Easy Search</h5>
+                                        <p class="text-muted">Find local service providers with just a few clicks.</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="d-flex mb-4">
+                                    <div class="me-4">
+                                        <div class="bg-primary bg-opacity-10 p-3 rounded-circle d-inline-flex">
+                                            <i class="fas fa-phone-alt text-primary fs-4"></i>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <h5 class="fw-bold">Direct Contact</h5>
+                                        <p class="text-muted">Call or message providers instantly through WhatsApp.</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="d-flex mb-4">
+                                    <div class="me-4">
+                                        <div class="bg-primary bg-opacity-10 p-3 rounded-circle d-inline-flex">
+                                            <i class="fas fa-map-marked-alt text-primary fs-4"></i>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <h5 class="fw-bold">Location Services</h5>
+                                        <p class="text-muted">View provider locations and get directions easily.</p>
+                                    </div>
+                                </div>
+                                
+                                <a href="{% url 'CustomerReg' %}" class="btn btn-primary btn-lg px-4 py-3 mt-2 btn-glow pulse-animation">
+                                    <span class="d-flex align-items-center justify-content-center">
+                                        <i class="fas fa-user-plus me-2"></i> Register as User
+                                    </span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="py-5" id="how-it-works" style="background-color: #f9fbfe;">
+        <div class="container">
+            <div class="text-center mb-5 animate__animated" data-animate="animate__fadeIn">
+                <h2 class="fw-bold display-5 mb-3">How It Works</h2>
+                <p class="text-muted lead">Simple steps to get the service you need</p>
+            </div>
+            
+            <div class="row g-4">
+                <!-- Step 1 -->
+                <div class="col-lg-4 col-md-6 animate__animated" data-animate="animate__fadeInUp">
+                    <div class="feature-card p-4 text-center h-100">
+                        <div class="step-icon bg-primary bg-opacity-10 p-3 rounded-circle d-inline-flex mb-4">
+                            <span class="text-primary fw-bold fs-3">1</span>
+                        </div>
+                        <h4 class="fw-bold mb-3">Search Services</h4>
+                        <p class="text-muted mb-4">Browse our directory or search for specific services in your area.</p>
+                        <div class="step-illustration">
+                            <i class="fas fa-search text-primary" style="font-size: 3rem;"></i>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Step 2 -->
+                <div class="col-lg-4 col-md-6 animate__animated" data-animate="animate__fadeInUp" style="animation-delay: 0.2s;">
+                    <div class="feature-card p-4 text-center h-100">
+                        <div class="step-icon bg-primary bg-opacity-10 p-3 rounded-circle d-inline-flex mb-4">
+                            <span class="text-primary fw-bold fs-3">2</span>
+                        </div>
+                        <h4 class="fw-bold mb-3">View Profiles</h4>
+                        <p class="text-muted mb-4">Check provider ratings, services offered, and contact information.</p>
+                        <div class="step-illustration">
+                            <i class="fas fa-user text-primary" style="font-size: 3rem;"></i>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Step 3 -->
+                <div class="col-lg-4 col-md-6 animate__animated" data-animate="animate__fadeInUp" style="animation-delay: 0.4s;">
+                    <div class="feature-card p-4 text-center h-100">
+                        <div class="step-icon bg-primary bg-opacity-10 p-3 rounded-circle d-inline-flex mb-4">
+                            <span class="text-primary fw-bold fs-3">3</span>
+                        </div>
+                        <h4 class="fw-bold mb-3">Connect Directly</h4>
+                        <p class="text-muted mb-4">Call, message via WhatsApp, or view their location on map.</p>
+                        <div class="step-illustration">
+                            <i class="fas fa-phone-alt text-primary" style="font-size: 3rem;"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="py-5 bg-light">
+        <div class="container">
+            <div class="text-center mb-5 animate__animated" data-animate="animate__fadeIn">
+                <h2 class="fw-bold">What Our Users Say</h2>
+                <p class="text-muted">Hear from our satisfied customers and providers</p>
+            </div>
+            <div class="row g-4">
+                <div class="col-md-4 animate__animated" data-animate="animate__fadeInUp">
+                    <div class="testimonial-card h-100">
+                        <div class="d-flex align-items-center mb-3">
+                            <img src="https://randomuser.me/api/portraits/women/32.jpg" alt="User" class="rounded-circle me-3" width="60">
+                            <div>
+                                <h5 class="mb-0">Sarah Johnson</h5>
+                                <div class="text-warning">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <p>"Found an excellent electrician within minutes who fixed my wiring issue same day. The WhatsApp messaging made communication so easy!"</p>
+                    </div>
+                </div>
+                <div class="col-md-4 animate__animated" data-animate="animate__fadeInUp" style="animation-delay: 0.2s;">
+                    <div class="testimonial-card h-100">
+                        <div class="d-flex align-items-center mb-3">
+                            <img src="https://randomuser.me/api/portraits/men/45.jpg" alt="User" class="rounded-circle me-3" width="60">
+                            <div>
+                                <h5 class="mb-0">Michael Chen</h5>
+                                <div class="text-warning">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <p>"As a carpenter, ServiceConnect has brought me more clients than any other platform. The direct contact feature means I get real leads."</p>
+                    </div>
+                </div>
+                <div class="col-md-4 animate__animated" data-animate="animate__fadeInUp" style="animation-delay: 0.4s;">
+                    <div class="testimonial-card h-100">
+                        <div class="d-flex align-items-center mb-3">
+                            <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="User" class="rounded-circle me-3" width="60">
+                            <div>
+                                <h5 class="mb-0">Priya Patel</h5>
+                                <div class="text-warning">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <p>"The map feature helped me find a painter near my home. He was at my doorstep within 2 hours and did a fantastic job!"</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="mb-5 py-5 bg-primary ">
+        <div class="container text-center py-4">
+            <h2 class="display-5 fw-bold mb-4 animate__animated text-light" data-animate="animate__fadeIn">Ready to Get Started?</h2>
+            <p class="lead mb-5 animate__animated  text-light"  data-animate="animate__fadeIn">Join thousands of satisfied users and service providers today</p>
+            <div class="d-flex flex-wrap justify-content-center gap-3 animate__animated" data-animate="animate__fadeInUp">
+                <a href="{% url 'Home' %}" class="btn btn-light btn-lg px-4 py-3 btn-glow pulse-animation">Find Services</a>
+                <a href="{% url 'ServiceProviderRegistration' %}" class="btn btn-outline-light btn-lg px-4 py-3 btn-glow">List Your Service</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <div class="container-fluid footer-section">
+    <div class="container">
+      <!-- Main Footer Content -->
+      <div class="footer-content">
+        <div class="footer-brand">
+          <i class="fas fa-location-dot footer-logo pulse"></i>
+          <h2 class="footer-title">SmartCityConnect</h2>
+        </div>
+        
+        <div class="footer-text">
+          <p class="footer-copyright">© 2025 SmartCityConnect. All rights reserved.</p>
+          <p class="footer-disclaimer">SmartCityConnect is an independent service provider and is not affiliated with any parent company.</p>
+          
+          <div class="footer-rewards slide-up">
+            <h5 class="rewards-title">Rewards Program</h5>
+            <p class="rewards-text">Available to customers who book services through SmartCityConnect. New and existing users welcome. No subscription required. Must be 18 years or older to participate. A user account on SmartCityConnect is required to earn rewards. Geographical exclusions may apply. Enjoy one reward per month for a year, redeemable through the SmartCityConnect app or website.</p>
+          </div>
+          
+          <div class="footer-premium slide-up" style="--delay: 0.2s">
+            <h5 class="premium-title">Premium Rewards</h5>
+            <p class="premium-text">Available to customers who book services through the SmartCityConnect app only. Maximum claim limit applies.</p>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Back to Top Button -->
+      <div class="back-to-top">
+        <a href="#top" class="top-link">
+          <span class="top-text">Back to Top</span>
+          <i class="fas fa-arrow-up top-icon"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+
+    <!-- JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js"></script>
+    <script>
+        // Initialize Wow.js for scroll animations
+        new WOW().init();
+        
+        // Tab Switching Functionality
+        function switchTab(tabName) {
+            // Hide all panes and remove active classes
+            document.querySelectorAll('.tab-pane').forEach(pane => {
+                pane.style.display = 'none';
+                pane.classList.remove('active', 'animate__fadeIn');
+            });
+            
+            // Show selected pane
+            const activePane = document.getElementById(`${tabName}-pane`);
+            if (activePane) {
+                activePane.style.display = 'block';
+                activePane.classList.add('active', 'animate__fadeIn');
+            }
+            
+            // Update tab buttons
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            
+            const activeTab = document.getElementById(`${tabName}-tab`);
+            if (activeTab) {
+                activeTab.classList.add('active');
+            }
+        }
+
+        // Smooth Scrolling for Anchor Links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Add animation to elements when they come into view
+        function animateOnScroll() {
+            const elements = document.querySelectorAll('[data-animate]');
+            
+            elements.forEach(element => {
+                const elementPosition = element.getBoundingClientRect().top;
+                const screenPosition = window.innerHeight / 1.3;
+                
+                if (elementPosition < screenPosition) {
+                    const animationClass = element.getAttribute('data-animate');
+                    element.classList.add(animationClass);
+                }
+            });
+        }
+
+        // Initialize animations on load and scroll
+        window.addEventListener('load', animateOnScroll);
+        window.addEventListener('scroll', animateOnScroll);
+    </script>
+</body>
+</html>

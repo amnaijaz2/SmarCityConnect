@@ -1,0 +1,1345 @@
+{% load static%}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+      integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="icon" href="{% static 'media/location.jpg'%}" />
+    <link rel="stylesheet" href="{% static 'css/home.css'%}" />
+  
+    <title>SmartCityConnect</title>
+  </head>
+  <body>
+    <!--for bootstrap JavaScript links-->
+    <script
+      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+      integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
+      integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
+      crossorigin="anonymous"
+    ></script>
+    <!--Navbar-->
+    <div class="container-fluid bg-primary navbar-container">
+      <div class="container">
+        <div class="row">
+          <div class="col-12">
+            <nav class="navbar navbar-expand-lg navbar-dark">
+              <a class="navbar-brand text-light fw-bold d-flex align-items-center brand-logo" href="{% url 'Home'%}">
+                <span class="logo-text">SmartCityConnect</span> 
+                <i class="fa-solid fa-location-dot logo-icon ms-2"></i>
+              </a>
+              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <i class="fa-solid fa-bars text-white "></i>
+              </button>
+              <div class="collapse navbar-collapse justify-content-lg-end" id="navbarNav">
+                <ul class="navbar-nav nav-items">
+                  <li class="nav-item">
+                    <a href="{% url 'Home'%}" class="nav-link text-light fw-bold nav-link-hover">
+                      <span>Home</span>
+                    </a>
+                  </li>
+                   <li class="nav-item">
+                    <a href="{% url 'About'%}" class="nav-link text-light fw-bold nav-link-hover">
+                      <span>About</span>
+                    </a>
+                  </li>
+                 
+                  <li class="nav-item">
+                    <a href="{% url 'Loginpage'%}" class="nav-link text-light fw-bold nav-link-hover login-btn">
+                      <span>Login</span>
+                      <i class="fa-solid fa-arrow-right-to-bracket ms-1"></i>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <!--slider-->
+    <div id="carouselExampleCaptions" class="carousel slide">
+      <div class="carousel-indicators">
+        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
+        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
+      </div>
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+          <img src="{% static 'media/plumber.jpeg'%}" class="d-block w-100 slider-img" alt="Plumbing services"/>
+          <div class="carousel-caption d-none d-md-block">
+            <h2 class="slider-title animate__animated animate__fadeIn">Find Service Provider Near You...</h2>
+            <p class="slider-subtitle animate__animated animate__fadeIn animate__delay-1s">Connect with trusted professionals</p>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <img src="{% static 'media/elec.jpeg'%}" class="d-block w-100 slider-img" alt="Electrical services"/>
+          <div class="carousel-caption d-none d-md-block">
+            <h2 class="slider-title animate__animated animate__fadeIn">Simplify your need with our support</h2>
+            <p class="slider-subtitle animate__animated animate__fadeIn animate__delay-1s">We're here to help you 24/7</p>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <img src="{% static 'media/third.jpeg'%}" class="d-block w-100 slider-img" alt="Building materials"/>
+          <div class="carousel-caption d-none d-md-block">
+            <h2 class="slider-title animate__animated animate__fadeIn">Find Best Building Materials</h2>
+            <p class="slider-subtitle animate__animated animate__fadeIn animate__delay-1s">Quality materials from trusted suppliers</p>
+          </div>
+        </div>
+      </div>
+      <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+    </div>
+
+ <!-- Services Section -->
+<!-- Animated Service Header -->
+<div class="service-header-wrapper py-5" id="services">
+  <div class="container text-center">
+    <div class="animate__animated animate__zoomIn animate__fast">
+      <h1 class="text-gradient service-title">
+        <span class="title-text ">Services Near You!!</span>
+        <span class="pulse-dot"></span>
+      </h1>
+    </div>
+    <div class="animate__animated animate__fadeIn animate__delay-1s">
+      <p class="tagline mt-3">Find the best professionals in your area</p>
+    </div>
+    <div class="animate__animated animate__fadeInUp animate__delay-2s">
+      <div class="sparkle-line"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Required CDNs -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"/>
+    
+    <div class="container">
+      <div class="row g-4 service-row">
+        <!-- First Row -->
+        <div class="col-lg-3 col-md-4 col-sm-6">
+          <div class="service-card">
+            <a href="{% url 'Plumber'%}" class="service-link"> <img src="{% static 'media/plumber.jpeg'%}" class="img-thumbnail service-img" alt="Carpenter"></a>
+            <p class="service-name">PLumber</p>
+          </div>
+        </div>
+       <div class="col-lg-3 col-md-4 col-sm-6">
+          <div class="service-card">
+            <a href="{% url 'Electricion'%}" class="service-link"> <img src="{% static 'media/elec.jpeg'%}" class="img-thumbnail service-img" alt="Carpenter"></a>
+            <p class="service-name">Electrician</p>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-4 col-sm-6">
+          <div class="service-card">
+            <a href="{% url 'Carpenter'%}" class="service-link"> <img src="{% static 'media/carpenter.jpeg'%}" class="img-thumbnail service-img" alt="Carpenter"></a>
+            <p class="service-name">Carpenter</p>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-4 col-sm-6">
+          <div class="service-card">
+            <a href="{% url 'Painter'%}" class="service-link"><img src="{% static 'media/painter.jpeg'%}" class="img-thumbnail service-img" alt="Painting Works"></a>
+            <p class="service-name">Painting Works</p>
+          </div>
+        </div>
+        
+        <!-- Second Row -->
+        <div class="col-lg-3 col-md-4 col-sm-6">
+          <div class="service-card">
+           <a href="{% url 'Welder'%}" class="service-link"> <img src="{% static 'media/welding.jpeg'%}" class="img-thumbnail service-img" alt="Welding Works"></a>
+            <p class="service-name">Welding Works</p>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-4 col-sm-6">
+          <div class="service-card">
+            <a href="{% url 'CableProvider'%}" class="service-link"> <img src="{% static 'media/Cable.jpeg'%}" class="img-thumbnail service-img" alt="Cable Provider"></a>
+            <p class="service-name">Cable Provider</p>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-4 col-sm-6">
+          <div class="service-card">
+            <a href="{% url 'Internat'%}" class="service-link"> <img src="{% static 'media/Wifi.jpeg'%}" class="img-thumbnail service-img" alt="Internet/Wifi"></a>
+            <p class="service-name">Internet/Wifi</p>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-4 col-sm-6">
+          <div class="service-card">
+             <a href="{% url 'Groceries'%}" class="service-link">  <img src="{% static 'media/Grocries.jpeg'%}" class="img-thumbnail service-img" alt="Groceries Provider"></a>
+            <p class="service-name">Groceries Provider</p>
+          </div>
+        </div>
+      </div>
+      <hr class="w-50 mx-auto my-5 section-divider">
+    </div>
+    
+  <!--After services part-->
+  <div class="container-fluid service-help-section">
+    <div class="container">
+      <!-- Hero Section -->
+      <div class="help-hero">
+        <div class="hero-text">
+          <h2 class="hero-title">Struggling to find the perfect service?</h2>
+          <p class="hero-subtitle">Our platform connects you with trusted professionals in just a few clicks</p>
+          <a href="#services" class="cta-button">
+            Discover Services
+            <i class="fas fa-arrow-right cta-icon"></i>
+          </a>
+        </div>
+        <div class="hero-illustration">
+          <div class="illustration-circle pulse-animation"></div>
+          <i class="fas fa-search illustration-icon"></i>
+        </div>
+      </div>
+  
+      <!-- Process Steps -->
+      <div class="process-steps">
+        <h2 class="process-title">How It Works</h2>
+        
+        <div class="steps-container">
+          <!-- Step 1 -->
+          <div class="process-step">
+            <div class="step-number">1</div>
+            <div class="step-content">
+              <i class="fas fa-comment-alt step-icon"></i>
+              <h3 class="step-title">Describe Your Needs</h3>
+              <p class="step-description">Tell us what service you're looking for and your location</p>
+            </div>
+          </div>
+          
+          <!-- Step Arrow -->
+          <div class="step-arrow">
+            <i class="fas fa-arrow-right"></i>
+          </div>
+          
+          <!-- Step 2 -->
+          <div class="process-step">
+            <div class="step-number">2</div>
+            <div class="step-content">
+              <i class="fas fa-list-alt step-icon"></i>
+              <h3 class="step-title">Get Matched</h3>
+              <p class="step-description">We instantly show you qualified professionals in your area</p>
+            </div>
+          </div>
+          
+          <!-- Step Arrow -->
+          <div class="step-arrow">
+            <i class="fas fa-arrow-right"></i>
+          </div>
+          
+          <!-- Step 3 -->
+          <div class="process-step">
+            <div class="step-number">3</div>
+            <div class="step-content">
+              <i class="fas fa-handshake step-icon"></i>
+              <h3 class="step-title">Connect & Hire</h3>
+              <p class="step-description">Contact and hire your preferred service provider</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--Register part-->
+  <div class="container-fluid service-promotion-section ">
+    <!-- Main Registration Banner -->
+    <div class="glowing-registration-banner">
+      <div class="container">
+        <div class="banner-content">
+          <h3 class="banner-title">Get your service listed on <span>SmartCityConnect</span></h3>
+          <a href="{% url 'ServiceProviderRegistration'%}" class="glowing-button">
+            Register Now <i class="fas fa-rocket"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  
+    <!-- FAQ & Business CTA Section -->
+    <div class="container faq-business-wrapper ">
+      <div class="row g-4 mt-3">
+        <!-- FAQ Section -->
+        <div class="col-lg-6">
+          <div class="faq-card">
+            <h2 class="section-heading">
+              <i class="fas fa-question-circle"></i> Frequently Asked Questions
+            </h2>
+            
+            <div class="accordion-wrapper">
+              <!-- FAQ Item 1 -->
+              <details class="faq-item" open>
+                <summary class="faq-question">
+                  <span>Why SmartCityConnect?</span>
+                  <i class="fas fa-chevron-down"></i>
+                </summary>
+                <div class="faq-answer">
+                  <p>Finding an experienced service provider near you is always a problem. SmartCityConnect helps you find top-class service providers near you in just one click.</p>
+                </div>
+              </details>
+              
+              <!-- FAQ Item 2 -->
+              <details class="faq-item">
+                <summary class="faq-question">
+                  <span>How to find service provider near me?</span>
+                  <i class="fas fa-chevron-down"></i>
+                </summary>
+                <div class="faq-answer">
+                  <p>You can search for the service providers near you by typing the service near you and clicking on the search button.</p>
+                </div>
+              </details>
+              
+              <!-- FAQ Item 3 -->
+              <details class="faq-item">
+                <summary class="faq-question">
+                  <span>Do I need to pay for booking?</span>
+                  <i class="fas fa-chevron-down"></i>
+                </summary>
+                <div class="faq-answer">
+                  <p>Our service is absolutely free and our partners don't take any advance payments for scheduling works.</p>
+                </div>
+              </details>
+              
+              <!-- FAQ Item 4 -->
+              <details class="faq-item">
+                <summary class="faq-question">
+                  <span>Can I book a service online?</span>
+                  <i class="fas fa-chevron-down"></i>
+                </summary>
+                <div class="faq-answer">
+                  <p>You can choose from the list of service providers and contact them directly.</p>
+                </div>
+              </details>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Business CTA Section -->
+        <div class="col-lg-6">
+          <div class="business-cta-card">
+            <div class="cta-content">
+              <h1 class="cta-heading">
+                <span class="highlight-text">Add your business</span>
+                <span class="highlight-text">to SmartCityConnect</span>
+                <span class="highlight-text">for FREE today!</span>
+              </h1>
+              <div class="cta-features">
+                <div class="feature">
+                  <i class="fas fa-check-circle"></i>
+                  <span>Increase your visibility</span>
+                </div>
+                <div class="feature">
+                  <i class="fas fa-check-circle"></i>
+                  <span>Get more customers</span>
+                </div>
+                <div class="feature">
+                  <i class="fas fa-check-circle"></i>
+                  <span>Grow your business</span>
+                </div>
+              </div>
+              <div class="floating-icons">
+                <i class="fas fa-tools"></i>
+                <i class="fas fa-bolt"></i>
+                <i class="fas fa-paint-roller"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Additional Registration Banners -->
+    <div class="container">
+      <div class="row g-4 mt-5">
+        <div class="col-md-6">
+          <div class="secondary-banner verified-banner">
+            <h4>Get your business <span>verified</span> on SmartCityConnect</h4>
+            <a href="" class="banner-button">
+              Get Verified <i class="fas fa-shield-alt"></i>
+            </a>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="secondary-banner featured-banner">
+            <h4>Get your service <span>featured</span> on SmartCityConnect</h4>
+            <a href="" class="banner-button">
+              Get Featured <i class="fas fa-star"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<!--chatbot part-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartCityConnect</title>
+    <style>
+        /*chatbot*/
+        body {
+            background-color: white !important;
+            color: #333 !important;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+        }
+
+        /* Chatbot Widget Styles */
+        .chatbot-widget {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 350px;
+            max-width: 90vw;
+            height: 500px;
+            max-height: 80vh;
+            border-radius: 15px;
+            background: linear-gradient(145deg, #1a1a2e, #16213e);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            z-index: 1000;
+            transform: translateY(100%);
+            opacity: 0;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(0, 102, 204, 0.3);
+        }
+        
+        .chatbot-widget.active {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        
+        .chatbot-header {
+            background: linear-gradient(90deg, #0066cc, #004080);
+            color: white;
+            padding: 12px 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .chatbot-title {
+            font-weight: bold;
+            font-size: 1em;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .chatbot-title::before {
+            content: "•";
+            color: #00ff88;
+            animation: pulse 1.5s infinite;
+        }
+        
+        .chatbot-toggle {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.2em;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        
+        .chatbot-toggle:hover {
+            transform: scale(1.1);
+        }
+        
+        .chatbot-messages {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+            background: rgba(10, 10, 20, 0.7);
+            scrollbar-width: thin;
+            scrollbar-color: #0066cc #0a0a1a;
+        }
+        
+        .chatbot-messages::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        .chatbot-messages::-webkit-scrollbar-track {
+            background: #0a0a1a;
+        }
+        
+        .chatbot-messages::-webkit-scrollbar-thumb {
+            background-color: #0066cc;
+            border-radius: 3px;
+        }
+        
+        .chatbot-message {
+            margin-bottom: 15px;
+            max-width: 85%;
+            padding: 10px 14px;
+            border-radius: 12px;
+            line-height: 1.4;
+            font-size: 0.9em;
+            animation: fadeIn 0.3s ease;
+            position: relative;
+            word-wrap: break-word;
+        }
+        
+        .user-message {
+            background: linear-gradient(135deg, #0066cc, #004d99);
+            color: white;
+            margin-left: auto;
+            border-bottom-right-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+        
+        .bot-message {
+            background: rgba(255, 255, 255, 0.1);
+            margin-right: auto;
+            border-bottom-left-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            border-left: 3px solid #0066cc;
+            color:white
+        }
+        
+        .chatbot-input-area {
+            display: flex;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.3);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            gap: 8px;
+        }
+        
+        #chatbot-input {
+            flex: 1;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            outline: none;
+            font-size: 0.9em;
+            transition: all 0.2s;
+        }
+        
+        #chatbot-input:focus {
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 0 0 2px rgba(0, 102, 204, 0.3);
+        }
+        
+        #chatbot-send, #chatbot-voice {
+            background: linear-gradient(135deg, #0066cc, #0055aa);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.9em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 60px;
+        }
+        
+        #chatbot-send:hover, #chatbot-voice:hover {
+            background: linear-gradient(135deg, #0055aa, #004080);
+            transform: translateY(-1px);
+        }
+        
+        #chatbot-send:active, #chatbot-voice:active {
+            transform: translateY(0);
+        }
+        
+        .provider-card {
+            background: rgba(0, 66, 128, 0.3);
+            border-radius: 8px;
+            padding: 12px;
+            margin: 10px 0;
+            border-left: 3px solid #0066cc;
+            font-size: 0.85em;
+            transition: all 0.2s;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .provider-card:hover {
+            background: rgba(0, 66, 128, 0.4);
+            transform: translateX(2px);
+        }
+        
+        .provider-card h4 {
+            margin: 0 0 5px 0;
+            color: #00a8ff;
+            font-size: 1.1em;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .provider-rating {
+            color: #FFA500;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 3px;
+            margin: 5px 0;
+        }
+        
+        .provider-image {
+            width: 100%;
+            max-height: 120px;
+            object-fit: cover;
+            border-radius: 5px;
+            margin-top: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .typing {
+            display: inline-flex;
+            gap: 4px;
+            padding: 10px 14px;
+        }
+        
+        .typing-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #00a8ff;
+            animation: typingAnimation 1.4s infinite;
+        }
+        
+        a.service-link {
+            color: #00ffaa;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.2s;
+            position: relative;
+            display: inline-block;
+        }
+        
+        a.service-link:hover {
+            color: #00e699;
+            text-decoration: none;
+        }
+        
+        a.service-link::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: #00ffaa;
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.3s ease;
+        }
+        
+        a.service-link:hover::after {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+        
+        .blink {
+            animation: blink 1.5s infinite;
+        }
+        
+        .quick-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 10px;
+        }
+        
+        .quick-action-btn {
+            background: rgba(0, 102, 204, 0.2);
+            border: 1px solid rgba(0, 102, 204, 0.5);
+            color: #00a8ff;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.8em;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .quick-action-btn:hover {
+            background: rgba(0, 102, 204, 0.4);
+            transform: translateY(-1px);
+        }
+        
+        .chatbot-launcher {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, #0066cc, #0055aa);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            z-index: 999;
+            transition: all 0.3s;
+            border: 3px solid white;
+            animation: pulse-glow 2s infinite, float 3s ease-in-out infinite;
+        }
+        
+        .chatbot-launcher:hover {
+            background: linear-gradient(135deg, #0055aa, #004080);
+            transform: scale(1.1) translateY(-5px);
+            box-shadow: 0 6px 25px rgba(0, 0, 0, 0.4), 0 0 15px rgba(0, 102, 204, 0.6);
+            animation: pulse-glow-fast 1s infinite, float 3s ease-in-out infinite;
+        }
+        
+        .chatbot-launcher:active {
+            transform: scale(0.95);
+        }
+        
+        .chatbot-launcher-icon {
+            font-size: 2em;
+            animation: blink 2s infinite, spin 8s linear infinite;
+        }
+        
+        .service-badge {
+            background: rgba(0, 170, 255, 0.2);
+            border-radius: 4px;
+            padding: 2px 6px;
+            font-size: 0.8em;
+            margin-left: 5px;
+            border: 1px solid rgba(0, 170, 255, 0.3);
+        }
+        
+        .timestamp {
+            font-size: 0.7em;
+            opacity: 0.6;
+            margin-top: 3px;
+            text-align: right;
+        }
+        
+        @keyframes typingAnimation {
+            0%, 60%, 100% { transform: translateY(0); }
+            30% { transform: translateY(-3px); }
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 0.8; }
+            50% { opacity: 1; }
+            100% { opacity: 0.8; }
+        }
+        
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-8px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        @keyframes pulse-glow {
+            0% { box-shadow: 0 0 0 0 rgba(0, 102, 204, 0.7); }
+            70% { box-shadow: 0 0 0 15px rgba(0, 102, 204, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(0, 102, 204, 0); }
+        }
+        
+        @keyframes pulse-glow-fast {
+            0% { box-shadow: 0 0 0 0 rgba(0, 102, 204, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(0, 102, 204, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(0, 102, 204, 0); }
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Voice recording styles */
+        .voice-recording-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 15px;
+            background: rgba(255, 0, 0, 0.1);
+            border-radius: 20px;
+            margin: 5px 0;
+            animation: pulse 1.5s infinite;
+        }
+        
+        .voice-recording-indicator {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .voice-recording-text {
+            color: #ff4444;
+            font-weight: bold;
+            margin-left: 5px;
+        }
+        
+        .voice-recording-time {
+            color: #ff4444;
+            font-family: monospace;
+            font-size: 0.9em;
+        }
+        
+        .voice-recording-cancel {
+            background: none;
+            border: none;
+            color: #ff4444;
+            font-weight: bold;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+        
+        .voice-wave {
+            display: flex;
+            align-items: center;
+            gap: 3px;
+            height: 20px;
+        }
+        
+        .voice-wave-bar {
+            width: 3px;
+            background: #ff4444;
+            border-radius: 3px;
+            animation: voiceWave 1.5s infinite ease-in-out;
+        }
+        
+        .voice-wave-bar:nth-child(1) { height: 5px; animation-delay: 0.1s; }
+        .voice-wave-bar:nth-child(2) { height: 10px; animation-delay: 0.2s; }
+        .voice-wave-bar:nth-child(3) { height: 15px; animation-delay: 0.3s; }
+        .voice-wave-bar:nth-child(4) { height: 10px; animation-delay: 0.4s; }
+        .voice-wave-bar:nth-child(5) { height: 5px; animation-delay: 0.5s; }
+        
+        @keyframes voiceWave {
+            0%, 100% { height: 5px; }
+            50% { height: 15px; }
+        }
+        
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
+            .chatbot-widget {
+                width: 90vw;
+                height: 70vh;
+                right: 5vw;
+                bottom: 10px;
+            }
+            
+            .chatbot-launcher {
+                width: 60px;
+                height: 60px;
+                bottom: 15px;
+                right: 15px;
+            }
+            
+            .chatbot-message {
+                max-width: 90%;
+                padding: 8px 12px;
+            }
+            
+            .provider-card {
+                padding: 10px;
+            }
+            
+            .chatbot-launcher-icon {
+                font-size: 1.8em;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .chatbot-launcher {
+                width: 50px;
+                height: 50px;
+                bottom: 10px;
+                right: 10px;
+            }
+            
+            .chatbot-launcher-icon {
+                font-size: 1.5em;
+            }
+            
+            .quick-actions {
+                gap: 6px;
+            }
+            
+            .quick-action-btn {
+                padding: 4px 8px;
+                font-size: 0.75em;
+            }
+        }
+    </style>
+</head>
+<body>
+    
+<div class="chatbot-launcher" id="chatbot-launcher">
+    <div class="chatbot-launcher-icon">💬</div>
+</div>
+
+<!-- Chatbot Widget -->
+<div class="chatbot-widget" id="chatbot-widget">
+    <div class="chatbot-header" id="chatbot-header">
+        <div class="chatbot-title">SmartCityConnect Assistant</div>
+        <button class="chatbot-toggle" id="chatbot-toggle">−</button>
+    </div>
+    <div class="chatbot-messages" id="chatbot-messages">
+        <div class="chatbot-message bot-message">
+            <div>Hello! I'm your SmartCityConnect assistant. How can I help you today?</div>
+            <div class="quick-actions">
+                <div class="quick-action-btn" data-query="plumber">Plumber</div>
+                <div class="quick-action-btn" data-query="electrician">Electrician</div>
+                <div class="quick-action-btn" data-query="painter">Painter</div>
+                <div class="quick-action-btn" data-query="carpenter">Carpenter</div>
+            </div>
+            <div class="timestamp">Just now</div>
+        </div>
+    </div>
+    <div class="chatbot-input-area">
+        <input type="text" id="chatbot-input" placeholder="Type your request..." autocomplete="off">
+        <button id="chatbot-voice" title="Voice input">🎤</button>
+        <button id="chatbot-send">Send</button>
+    </div>
+</div>
+
+
+<script>
+      document.addEventListener('DOMContentLoaded', function() {
+    const chatbotWidget = document.getElementById('chatbot-widget');
+    const chatbotMessages = document.getElementById('chatbot-messages');
+    const chatbotInput = document.getElementById('chatbot-input');
+    const chatbotSend = document.getElementById('chatbot-send');
+    const chatbotVoice = document.getElementById('chatbot-voice');
+    const chatbotToggle = document.getElementById('chatbot-toggle');
+    const chatbotHeader = document.getElementById('chatbot-header');
+    const chatbotLauncher = document.getElementById('chatbot-launcher');
+    
+    let isChatbotOpen = false;
+    let isProcessing = false;
+    let recognition = null;
+    let isListening = false;
+    let recordingStartTime = null;
+    let recordingTimer = null;
+    let lastVoiceQuery = '';
+    
+    // Initialize chatbot
+    function initChatbot() {
+        // Initialize voice recognition if available
+        initVoiceRecognition();
+        
+        // Set up event listeners
+        chatbotLauncher.addEventListener('click', toggleChatbot);
+        chatbotHeader.addEventListener('click', toggleChatbot);
+        
+        // Quick actions
+        document.querySelectorAll('.quick-action-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const query = this.getAttribute('data-query');
+                chatbotInput.value = query;
+                processQuery(query);
+            });
+        });
+    }
+    
+    // Initialize voice recognition
+    function initVoiceRecognition() {
+        try {
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            if (SpeechRecognition) {
+                recognition = new SpeechRecognition();
+                recognition.continuous = false;
+                recognition.interimResults = true;
+                recognition.lang = 'en-US';
+                
+                recognition.onstart = function() {
+                    isListening = true;
+                    recordingStartTime = Date.now();
+                    showVoiceRecordingUI();
+                    updateRecordingTime();
+                    chatbotVoice.innerHTML = '🛑'; // Change icon to stop
+                };
+                
+                recognition.onresult = function(event) {
+                    const transcript = Array.from(event.results)
+                        .map(result => result[0])
+                        .map(result => result.transcript)
+                        .join('');
+                    
+                    lastVoiceQuery = transcript;
+                    chatbotInput.value = transcript;
+                };
+                
+                recognition.onerror = function(event) {
+                    console.error('Voice recognition error', event.error);
+                    if (event.error !== 'no-speech') {
+                        addMessage("Sorry, I couldn't understand your voice. Please try typing instead.", false);
+                    }
+                    stopVoiceRecording();
+                };
+                
+                recognition.onend = function() {
+                    if (isListening) {
+                        // Only process if user didn't manually stop
+                        if (lastVoiceQuery.trim()) {
+                            processQuery(lastVoiceQuery.trim());
+                        } else {
+                            addMessage("I didn't hear anything. Please try again.", false);
+                        }
+                    }
+                    stopVoiceRecording();
+                };
+            } else {
+                chatbotVoice.style.display = 'none';
+            }
+        } catch (e) {
+            console.error('Voice recognition initialization error:', e);
+            chatbotVoice.style.display = 'none';
+        }
+    }
+    
+    // Show voice recording UI
+    function showVoiceRecordingUI() {
+        const recordingUI = document.createElement('div');
+        recordingUI.className = 'voice-recording-container';
+        recordingUI.innerHTML = `
+            <div class="voice-recording-indicator">
+                <div class="voice-wave">
+                    <div class="voice-wave-bar"></div>
+                    <div class="voice-wave-bar"></div>
+                    <div class="voice-wave-bar"></div>
+                    <div class="voice-wave-bar"></div>
+                    <div class="voice-wave-bar"></div>
+                </div>
+                <span class="voice-recording-text">Listening...</span>
+                <span class="voice-recording-time">00:00</span>
+            </div>
+            <button class="voice-recording-cancel" id="cancel-recording">Cancel</button>
+        `;
+        
+        chatbotInput.style.display = 'none';
+        chatbotSend.style.display = 'none';
+        chatbotInput.parentNode.insertBefore(recordingUI, chatbotInput);
+        
+        // Add cancel button event
+        document.getElementById('cancel-recording').addEventListener('click', function() {
+            isListening = false;
+            stopVoiceRecording();
+            recognition.stop();
+        });
+    }
+    
+    // Update recording time
+    function updateRecordingTime() {
+        if (!isListening) return;
+        
+        const elapsed = Math.floor((Date.now() - recordingStartTime) / 1000);
+        const minutes = Math.floor(elapsed / 60).toString().padStart(2, '0');
+        const seconds = (elapsed % 60).toString().padStart(2, '0');
+        
+        const timeElement = document.querySelector('.voice-recording-time');
+        if (timeElement) {
+            timeElement.textContent = `${minutes}:${seconds}`;
+        }
+        
+        recordingTimer = setTimeout(updateRecordingTime, 1000);
+    }
+    
+    // Stop voice recording
+    function stopVoiceRecording() {
+        isListening = false;
+        clearTimeout(recordingTimer);
+        
+        // Remove recording UI
+        const recordingUI = document.querySelector('.voice-recording-container');
+        if (recordingUI) recordingUI.remove();
+        
+        // Restore input elements
+        chatbotInput.style.display = '';
+        chatbotSend.style.display = '';
+        chatbotVoice.innerHTML = '🎤'; // Reset to mic icon
+    }
+    
+    // Toggle chatbot visibility
+    function toggleChatbot() {
+        isChatbotOpen = !isChatbotOpen;
+        chatbotWidget.classList.toggle('active', isChatbotOpen);
+        chatbotLauncher.style.display = isChatbotOpen ? 'none' : 'flex';
+        if (isChatbotOpen) chatbotInput.focus();
+    }
+    
+    // Add message to chat
+    function addMessage(text, isUser, htmlContent = null) {
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `chatbot-message ${isUser ? 'user-message' : 'bot-message'}`;
+        
+        if (htmlContent) {
+            messageDiv.innerHTML = `<div>${text}</div>${htmlContent}`;
+        } else {
+            messageDiv.innerHTML = text;
+        }
+        
+        // Add timestamp
+        const timestamp = document.createElement('div');
+        timestamp.className = 'timestamp';
+        timestamp.textContent = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        messageDiv.appendChild(timestamp);
+        
+        chatbotMessages.appendChild(messageDiv);
+        chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+    }
+    
+    // Show typing indicator
+    function showTyping() {
+        const typingDiv = document.createElement('div');
+        typingDiv.className = 'chatbot-message bot-message typing';
+        typingDiv.innerHTML = `
+            <span class="typing-dot"></span>
+            <span class="typing-dot"></span>
+            <span class="typing-dot"></span>
+            <div class="timestamp">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
+        `;
+        chatbotMessages.appendChild(typingDiv);
+        return typingDiv;
+    }
+    
+    // Process user query
+    async function processQuery(query) {
+        if (!query.trim() || isProcessing) return;
+        
+        isProcessing = true;
+        addMessage(query, true);
+        chatbotInput.value = '';
+        
+        const typing = showTyping();
+        
+        try {
+            // First check for greetings
+            const greetings = ['hello', 'hi', 'hey', 'greetings', 'good morning', 'good afternoon', 'good evening'];
+            const isGreeting = greetings.some(greet => query.toLowerCase().includes(greet));
+            
+            if (isGreeting) {
+                typing.remove();
+                const responses = [
+                    "Hello! I'm your SmartCityConnect assistant. How can I help you today?",
+                    "Hi there! What service are you looking for today?",
+                    "Greetings! I can help you find local service providers. What do you need?"
+                ];
+                const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+                addMessage(randomResponse, false);
+                isProcessing = false;
+                return;
+            }
+            
+            // Check for thanks/bye
+            const farewells = ['thanks', 'thank you', 'bye', 'goodbye', 'see you'];
+            const isFarewell = farewells.some(word => query.toLowerCase().includes(word));
+            
+            if (isFarewell) {
+                typing.remove();
+                const responses = [
+                    "You're welcome! Let me know if you need anything else.",
+                    "Happy to help! Come back anytime you need service providers.",
+                    "Goodbye! Remember SmartCityConnect is here when you need services."
+                ];
+                const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+                addMessage(randomResponse, false);
+                isProcessing = false;
+                return;
+            }
+            
+            // Process service request
+            const response = await fetch('/jarvis/chat/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': getCookie('csrftoken'),
+                },
+                body: JSON.stringify({ query })
+            });
+            
+            if (!response.ok) throw new Error('Network error');
+            
+            const data = await response.json();
+            typing.remove();
+            
+            // Handle response
+            if (data.status === 'success' || data.status === 'no_providers') {
+                addMessage(data.response, false, createProvidersHTML(data.providers || [], data.service || ''));
+            } else {
+                addMessage(data.response || "Sorry, I didn't understand that. Try something like 'plumber' or 'electrician'", false);
+            }
+            
+        } catch (error) {
+            typing.remove();
+            addMessage(`
+                <div class="error-message">
+                    <p>Sorry, I couldn't process your request.</p>
+                    <button onclick="retryLastQuery()">Try Again</button>
+                </div>
+            `, false);
+            console.error("Error:", error);
+        } finally {
+            isProcessing = false;
+        }
+    }
+    
+    // Create providers HTML
+    function createProvidersHTML(providers, service) {
+        if (!providers || providers.length === 0) return null;
+        
+        let html = '<div class="providers-container">';
+        
+        providers.forEach(provider => {
+            const stars = '★'.repeat(Math.floor(provider.rating)) + 
+                         (provider.rating % 1 >= 0.5 ? '½' : '') + 
+                         '☆'.repeat(5 - Math.ceil(provider.rating));
+            
+            html += `
+                <div class="provider-card">
+                    <h4>${provider.name} <small>(${provider.experience} yrs exp)</small></h4>
+                    <div class="provider-rating">${stars} (${provider.rating.toFixed(1)})</div>
+                    <div class="provider-contact">
+                        <a href="tel:${provider.phone}">📞 ${provider.phone}</a>
+                        <span>📍 ${provider.address.split(',')[0]}</span>
+                    </div>
+                    <p class="provider-desc">${provider.description}</p>
+                    ${provider.image ? `<img src="${provider.image}" alt="${provider.name}" class="provider-image">` : ''}
+                </div>
+            `;
+        });
+        
+        html += `</div>`;
+        return html;
+    }
+    
+    // Get CSRF token
+    function getCookie(name) {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return parts.pop().split(';').shift();
+    }
+    
+    // Voice input handler
+    chatbotVoice.addEventListener('click', function() {
+        if (!recognition) {
+            addMessage("Voice input is not supported in your browser. Please type your request.", false);
+            return;
+        }
+        
+        if (isListening) {
+            // Stop recording
+            isListening = false;
+            recognition.stop();
+            return;
+        }
+        
+        if (chatbotInput.value.trim()) {
+            // If there's text in the input, use that instead
+            processQuery(chatbotInput.value.trim());
+            return;
+        }
+        
+        // Start new recording
+        lastVoiceQuery = '';
+        try {
+            recognition.start();
+        } catch (e) {
+            console.error('Voice recognition error:', e);
+            addMessage("Couldn't access your microphone. Please check permissions.", false);
+        }
+    });
+    
+    // Event listeners
+    chatbotSend.addEventListener('click', () => processQuery(chatbotInput.value.trim()));
+    chatbotInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') processQuery(chatbotInput.value.trim());
+    });
+    chatbotToggle.addEventListener('click', (e) => {
+        e.stopPropagation();
+        toggleChatbot();
+    });
+    
+    // Add to window for retry function
+    window.retryLastQuery = function() {
+        const lastMessage = document.querySelector('.user-message:last-child');
+        if (lastMessage) {
+            processQuery(lastMessage.textContent.trim());
+        }
+    };
+    
+    // Initialize everything
+    initChatbot();
+});
+
+</script>
+</body>
+</html>
+  <!--bootom part -->
+  <div class="container-fluid footer-section">
+    <div class="container">
+      <!-- Main Footer Content -->
+      <div class="footer-content">
+        <div class="footer-brand">
+          <i class="fas fa-location-dot footer-logo pulse"></i>
+          <h2 class="footer-title">SmartCityConnect</h2>
+        </div>
+        
+        <div class="footer-text">
+          <p class="footer-copyright">© 2025 SmartCityConnect. All rights reserved.</p>
+          <p class="footer-disclaimer">SmartCityConnect is an independent service provider and is not affiliated with any parent company.</p>
+          
+          <div class="footer-rewards slide-up">
+            <h5 class="rewards-title">Rewards Program</h5>
+            <p class="rewards-text">Available to customers who book services through SmartCityConnect. New and existing users welcome. No subscription required. Must be 18 years or older to participate. A user account on SmartCityConnect is required to earn rewards. Geographical exclusions may apply. Enjoy one reward per month for a year, redeemable through the SmartCityConnect app or website.</p>
+          </div>
+          
+          <div class="footer-premium slide-up" style="--delay: 0.2s">
+            <h5 class="premium-title">Premium Rewards</h5>
+            <p class="premium-text">Available to customers who book services through the SmartCityConnect app only. Maximum claim limit applies.</p>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Back to Top Button -->
+      <div class="back-to-top">
+        <a href="#top" class="top-link">
+          <span class="top-text">Back to Top</span>
+          <i class="fas fa-arrow-up top-icon"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+
+
+  </body>
+</html>

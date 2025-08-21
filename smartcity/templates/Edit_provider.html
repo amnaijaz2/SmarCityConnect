@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Service Provider | SmartCityConnect</title>
+    
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Animate.css -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    
+    <!-- AOS Animation -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --secondary-color: #3f37c9;
+            --accent-color: #4895ef;
+            --light-color: #f8f9fa;
+            --dark-color: #212529;
+            --success-color: #4cc9f0;
+            --warning-color: #f72585;
+            --border-radius: 12px;
+            --box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+            color: var(--dark-color);
+            line-height: 1.7;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            overflow: hidden;
+            animation: fadeIn 0.6s ease-out;
+            position: relative;
+        }
+        
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 8px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .header {
+            padding: 30px;
+            text-align: center;
+            background: white;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        
+        .header h2 {
+            color: var(--primary-color);
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .header h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background: var(--accent-color);
+            border-radius: 3px;
+        }
+        
+        .form-content {
+            padding: 30px;
+        }
+        
+        .form-row {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 0 -15px;
+        }
+        
+        .form-col {
+            flex: 1;
+            padding: 0 15px;
+            min-width: 250px;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+            position: relative;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--dark-color);
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 14px 20px;
+            border: 2px solid #e9ecef;
+            border-radius: var(--border-radius);
+            font-size: 16px;
+            transition: var(--transition);
+            background-color: white;
+            color: var(--dark-color);
+        }
+        
+        .form-control:focus {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+            outline: none;
+        }
+        
+        select.form-control {
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 15px center;
+            background-size: 16px;
+        }
+        
+        .btn {
+            padding: 14px 28px;
+            border-radius: var(--border-radius);
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .btn i {
+            margin-right: 8px;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+            box-shadow: 0 4px 15px rgba(67, 97, 238, 0.3);
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(67, 97, 238, 0.4);
+        }
+        
+        .btn-secondary {
+            background-color: white;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+            margin-left: 15px;
+        }
+        
+        .btn-secondary:hover {
+            background-color: rgba(67, 97, 238, 0.05);
+            transform: translateY(-2px);
+        }
+        
+        .file-input-wrapper {
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+            width: 100%;
+        }
+        
+        .file-input-wrapper input[type=file] {
+            font-size: 100px;
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0;
+        }
+        
+        .file-input-label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background: white;
+            border: 2px dashed #e9ecef;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: var(--transition);
+            text-align: center;
+            color: #6c757d;
+        }
+        
+        .file-input-label:hover {
+            border-color: var(--accent-color);
+            color: var(--primary-color);
+        }
+        
+        .file-input-label i {
+            font-size: 24px;
+            margin-right: 10px;
+            color: var(--accent-color);
+        }
+        
+        .image-preview {
+            margin-top: 20px;
+            text-align: center;
+        }
+        
+        .image-preview img {
+            max-width: 180px;
+            height: auto;
+            border-radius: var(--border-radius);
+            border: 5px solid white;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: var(--transition);
+        }
+        
+        .image-preview img:hover {
+            transform: scale(1.05);
+        }
+        
+        .form-actions {
+            margin-top: 40px;
+            display: flex;
+            justify-content: flex-end;
+        }
+        
+        .alert {
+            padding: 16px 20px;
+            margin-bottom: 25px;
+            border-radius: var(--border-radius);
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+            animation: slideIn 0.4s ease-out;
+        }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .alert i {
+            margin-right: 12px;
+            font-size: 20px;
+        }
+        
+        .alert-success {
+            background-color: rgba(76, 201, 240, 0.15);
+            color: #0a6b7e;
+            border-left: 4px solid var(--success-color);
+        }
+        
+        .alert-error {
+            background-color: rgba(247, 37, 133, 0.15);
+            color: #a4133c;
+            border-left: 4px solid var(--warning-color);
+        }
+        
+        /* Floating labels animation */
+        .floating-label-group {
+            position: relative;
+            margin-bottom: 25px;
+        }
+        
+        .floating-label {
+            position: absolute;
+            top: 14px;
+            left: 20px;
+            color: #6c757d;
+            transition: var(--transition);
+            pointer-events: none;
+            background: white;
+            padding: 0 5px;
+            font-size: 16px;
+        }
+        
+        .form-control:focus + .floating-label,
+        .form-control:not(:placeholder-shown) + .floating-label {
+            top: -10px;
+            left: 15px;
+            font-size: 12px;
+            color: var(--accent-color);
+            background: white;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                margin: 20px;
+                padding: 0;
+            }
+            
+            .form-col {
+                flex: 100%;
+                padding: 0;
+            }
+            
+            .form-actions {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+                margin-bottom: 15px;
+            }
+            
+            .btn-secondary {
+                margin-left: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container" data-aos="fade-up">
+        <div class="header">
+            <h2>Edit Service Provider</h2>
+            <p>Update the details below to modify this service provider</p>
+        </div>
+        
+        <div class="form-content">
+            <!-- Display messages -->
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert {% if message.tags == 'success' %}alert-success{% else %}alert-error{% endif %}">
+                        <i class="fas {% if message.tags == 'success' %}fa-check-circle{% else %}fa-exclamation-circle{% endif %}"></i>
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+            
+            <form method="POST" enctype="multipart/form-data" id="editProviderForm">
+                {% csrf_token %}
+                
+                <div class="form-row">
+                    <div class="form-col">
+                        <div class="floating-label-group">
+                            <input type="text" class="form-control" name="username" value="{{ provider.username }}" required placeholder=" ">
+                            <label class="floating-label">Username</label>
+                        </div>
+                    </div>
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label>Service Type</label>
+                            <select class="form-control" name="servicename" required>
+                                {% for choice in service_choices %}
+                                    <option value="{{ choice.0 }}" {% if provider.servicename == choice.0 %}selected{% endif %}>
+                                        {{ choice.1 }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-col">
+                        <div class="floating-label-group">
+                            <input type="text" class="form-control" name="first_name" value="{{ provider.first_name }}" required placeholder=" ">
+                            <label class="floating-label">First Name</label>
+                        </div>
+                    </div>
+                    <div class="form-col">
+                        <div class="floating-label-group">
+                            <input type="text" class="form-control" name="last_name" value="{{ provider.last_name }}" required placeholder=" ">
+                            <label class="floating-label">Last Name</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-col">
+                        <div class="floating-label-group">
+                            <input type="email" class="form-control" name="email" value="{{ provider.email }}" required placeholder=" ">
+                            <label class="floating-label">Email Address</label>
+                        </div>
+                    </div>
+                    <div class="form-col">
+                        <div class="floating-label-group">
+                            <input type="tel" class="form-control" name="Phoneno" value="{{ provider.Phoneno }}" required placeholder=" ">
+                            <label class="floating-label">Phone Number</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="floating-label-group">
+                    <input type="text" class="form-control" name="address" value="{{ provider.address }}" required placeholder=" ">
+                    <label class="floating-label">Address</label>
+                </div>
+                
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea class="form-control" name="description" rows="3">{{ provider.description }}</textarea>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label>Service Image</label>
+                            <div class="file-input-wrapper">
+                                <label class="file-input-label">
+                                    <i class="fas fa-cloud-upload-alt"></i>
+                                    <span>Click to upload new service image</span>
+                                    <input type="file" name="service_image" accept="image/*">
+                                </label>
+                            </div>
+                            {% if provider.service_image %}
+                                <div class="image-preview">
+                                    <p class="text-muted">Current Service Image:</p>
+                                    <img src="{{ provider.service_image.url }}" alt="Current Service Image" class="animate__animated animate__fadeIn">
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label>Approval Status</label>
+                            <select class="form-control" name="is_approved">
+                                <option value="true" {% if provider.is_approved %}selected{% endif %}>Approved</option>
+                                <option value="false" {% if not provider.is_approved %}selected{% endif %}>Not Approved</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label>Rating</label>
+                            <input type="number" class="form-control" name="rating" value="{{ provider.rating }}" step="0.01" min="0" max="5">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save"></i> Save Changes
+                    </button>
+                    <a href="{% url 'service_providers' %}" class="btn btn-secondary">
+                        <i class="fas fa-times"></i> Cancel
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- AOS Animation -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            duration: 800,
+            easing: 'ease-in-out',
+            once: true
+        });
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('editProviderForm');
+            
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Show loading state
+                const submitBtn = form.querySelector('button[type="submit"]');
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+                submitBtn.disabled = true;
+                
+                // Submit form via AJAX
+                const formData = new FormData(form);
+                
+                fetch("{% url 'edit_provider' provider.id %}", {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-CSRFToken': '{{ csrf_token }}'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Show success message and redirect
+                        const alertDiv = document.createElement('div');
+                        alertDiv.className = 'alert alert-success';
+                        alertDiv.innerHTML = `
+                            <i class="fas fa-check-circle"></i>
+                            Provider details updated successfully! Redirecting...
+                        `;
+                        form.prepend(alertDiv);
+                        
+                        setTimeout(() => {
+                            window.location.href = "{% url 'service_providers' %}";
+                        }, 1500);
+                    } else {
+                        // Show error message
+                        const alertDiv = document.createElement('div');
+                        alertDiv.className = 'alert alert-error';
+                        alertDiv.innerHTML = `
+                            <i class="fas fa-exclamation-circle"></i>
+                            ${data.error || 'Error saving changes'}
+                        `;
+                        form.prepend(alertDiv);
+                        
+                        submitBtn.innerHTML = '<i class="fas fa-save"></i> Save Changes';
+                        submitBtn.disabled = false;
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    const alertDiv = document.createElement('div');
+                    alertDiv.className = 'alert alert-error';
+                    alertDiv.innerHTML = `
+                        <i class="fas fa-exclamation-circle"></i>
+                        An error occurred while saving. Please try again.
+                    `;
+                    form.prepend(alertDiv);
+                    
+                    submitBtn.innerHTML = '<i class="fas fa-save"></i> Save Changes';
+                    submitBtn.disabled = false;
+                });
+            });
+            
+            // Floating label functionality
+            const floatingLabels = document.querySelectorAll('.floating-label-group .form-control');
+            floatingLabels.forEach(input => {
+                if (input.value) {
+                    input.nextElementSibling.style.top = '-10px';
+                    input.nextElementSibling.style.fontSize = '12px';
+                    input.nextElementSibling.style.color = '#4895ef';
+                }
+                
+                input.addEventListener('focus', function() {
+                    this.nextElementSibling.style.top = '-10px';
+                    this.nextElementSibling.style.fontSize = '12px';
+                    this.nextElementSibling.style.color = '#4895ef';
+                });
+                
+                input.addEventListener('blur', function() {
+                    if (!this.value) {
+                        this.nextElementSibling.style.top = '14px';
+                        this.nextElementSibling.style.fontSize = '16px';
+                        this.nextElementSibling.style.color = '#6c757d';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

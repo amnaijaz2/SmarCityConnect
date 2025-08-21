@@ -1,0 +1,460 @@
+{% load static%}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+      integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="icon" href="{% static 'media/location.jpg'%}" />
+    <link rel="stylesheet" href="{% static 'css/ServiceRegistration.css'%}" />
+    <script src="{% static 'js/ServiceproviderReg.js' %}" defer></script>
+
+    <title>SmartCityConnect</title>
+  </head>
+  <body>
+    <script
+      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+      integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
+      integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
+      crossorigin="anonymous"
+    ></script>
+    <!--Header-->
+    <!--Navbar-->
+    <div class="container-fluid bg-primary navbar-container">
+      <div class="container">
+        <div class="row">
+          <div class="col-12">
+            <nav class="navbar navbar-expand-lg navbar-dark">
+              <a
+                class="navbar-brand text-light fw-bold d-flex align-items-center brand-logo"
+                href="{% url 'Home'%}"
+              >
+                <span class="logo-text">SmartCityConnect</span>
+                <i class="fa-solid fa-location-dot logo-icon ms-2"></i>
+              </a>
+              <button
+                class="navbar-toggler"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#navbarNav"
+              >
+                <i class="fa-solid fa-bars text-white"></i>
+              </button>
+              <div
+                class="collapse navbar-collapse justify-content-lg-end"
+                id="navbarNav"
+              >
+                <ul class="navbar-nav nav-items">
+                  <li class="nav-item">
+                    <a
+                      href="{% url 'Home'%}"
+                      class="nav-link text-light fw-bold nav-link-hover"
+                    >
+                      <span>Home</span>
+                    </a>
+                  </li>
+                   <li class="nav-item">
+                    <a href="{% url 'About'%}" class="nav-link text-light fw-bold nav-link-hover">
+                      <span>About</span>
+                    </a>
+                  </li>
+                
+                  <li class="nav-item">
+                    <a
+                      href="{% url 'Loginpage'%}"
+                      class="nav-link text-light fw-bold nav-link-hover login-btn"
+                    >
+                      <span>Login</span>
+                      <i class="fa-solid fa-arrow-right-to-bracket ms-1"></i>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </div>
+
+ <!--form Login-->
+<<!--form Login-->
+    <div class="registration-container" id="registration">
+      <!-- Animated Header -->
+      <div class="registration-header slide-down">
+        <div class="header-icon pulse">
+          <i class="fas fa-user-plus"></i>
+        </div>
+        <h2>Join SmartCityConnect</h2>
+        <p>Create your service provider account</p>
+      </div>
+
+      <!-- Main Form Container -->
+      <div class="form-container" " method="post"
+          enctype="multipart/form-data"
+          class="needs-validation"
+          novalidate >
+        <form
+          method="post"
+          enctype="multipart/form-data"
+          class="needs-validation"
+          novalidate
+        >
+          {% csrf_token %}
+
+          <!-- Messages -->
+          {% if messages %}
+          <div class="alert-container">
+            {% for message in messages %}
+            <div class="alert-message pop-in">
+              <i class="fas fa-info-circle"></i>
+              <span>{{ message }}</span>
+            </div>
+            {% endfor %}
+          </div>
+          {% endif %}
+
+          <!-- Login Redirect -->
+          <div class="login-redirect fade-in">
+            Already have an account?
+            <a href="">Login Here</a>
+          </div>
+
+          <!-- Form Grid -->
+          <div class="form-grid">
+            <!-- First Name -->
+            <div class="form-group">
+              <div class="floating-label">
+                <input
+                  type="text"
+                  id="firstName"
+                  name="first_name"
+                  class="form-input"
+                  required
+                />
+                <label for="firstName">First Name</label>
+                <div class="focus-line"></div>
+                <i class="fas fa-user input-icon"></i>
+              </div>
+            </div>
+
+            <!-- Last Name -->
+            <div class="form-group">
+              <div class="floating-label">
+                <input
+                  type="text"
+                  id="lastName"
+                  name="last_name"
+                  class="form-input"
+                  required
+                />
+                <label for="lastName">Last Name</label>
+                <div class="focus-line"></div>
+                <i class="fas fa-user input-icon"></i>
+              </div>
+            </div>
+
+            <!-- Username -->
+            <div class="form-group">
+              <div class="floating-label">
+                <input
+                  type="text"
+                  id="username"
+                  name="username"
+                  class="form-input"
+                  required
+                />
+                <label for="username">Username</label>
+                <div class="focus-line"></div>
+                <i class="fas fa-at input-icon"></i>
+              </div>
+            </div>
+
+           <!-- Service Name Dropdown -->
+<div class="form-group">
+  <div class="floating-label">
+    <select id="servicename" name="servicename" class="form-input" required>
+      <option value="">Select a Service</option>
+      <option value="plumber">Plumber</option>
+      <option value="electrician">Electrician</option>
+      <option value="carpenter">Carpenter</option>
+      <option value="painter">Painter</option>
+      <option value="groceries">Groceries Provider</option>
+      <option value="welder">Welder</option>
+      <option value="internet">WiFi/Internet Provider</option>
+      <option value="cable">Cable TV Provider</option>
+    </select>
+    <label for="servicename">Service Type</label>
+    <div class="focus-line"></div>
+    <i class="fas fa-briefcase input-icon"></i>
+  </div>
+</div>
+
+            <!-- Phone Number -->
+            <div class="form-group">
+              <div class="floating-label">
+                <input
+                  type="tel"
+                  id="phoneNo"
+                  name="Phoneno"
+                  class="form-input"
+                  pattern="\d{11}"
+                  required
+                />
+                <label for="phoneNo">Phone Number</label>
+                <div class="focus-line"></div>
+                <i class="fas fa-phone input-icon"></i>
+              </div>
+              <div class="input-hint">11 digits required</div>
+            </div>
+
+            <!-- Email -->
+            <div class="form-group">
+              <div class="floating-label">
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  class="form-input"
+                  required
+                />
+                <label for="email">Email</label>
+                <div class="focus-line"></div>
+                <i class="fas fa-envelope input-icon"></i>
+              </div>
+            </div>
+
+            <!-- Address -->
+            <div class="form-group">
+              <div class="floating-label">
+                <input
+                  type="text"
+                  id="address"
+                  name="address"
+                  class="form-input"
+                />
+                <label for="address">Address</label>
+                <div class="focus-line"></div>
+                <i class="fas fa-map-marker-alt input-icon"></i>
+              </div>
+            </div>
+
+            <!-- Description -->
+            <div class="form-group full-width">
+              <div class="floating-label">
+                <textarea
+                  id="description"
+                  name="description"
+                  class="form-input"
+                  rows="3"
+                  placeholder=" "
+                ></textarea>
+                <label for="description">About You/Your Service</label>
+                <div class="focus-line"></div>
+                <i class="fas fa-pen input-icon"></i>
+              </div>
+              <div class="input-hint">Tell customers about your skills and experience</div>
+            </div>
+
+          <!--  Image Upload -->
+
+            <div class="form-group full-width file-upload-group">
+              <div class="upload-container">
+                <label class="file-upload-label pulse-on-hover">
+                  <div class="upload-content">
+                    <i class="fas fa-cloud-upload-alt upload-icon"></i>
+                    <span class="upload-text">Upload Service Image</span>
+                   
+                  </div>
+                  <input
+                    type="file"
+                    name="service_image"
+                    id="formFile"
+                    class="file-upload-input"
+                    accept="image/*"
+                  />
+                </label>
+                <div class="file-preview-container">
+                  <div class="file-preview" id="filePreview">
+                    <div class="preview-placeholder">
+                      <i class="fas fa-image placeholder-icon"></i>
+                      <span class="placeholder-text">Image Preview</span>
+                    </div>
+                  </div>
+                  <div class="upload-progress">
+                    <div class="progress-bar"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Password -->
+            <div class="form-group password-group">
+              <div class="floating-label">
+                <input
+                  type="password"
+                  id="password"
+                  name="password"
+                  class="form-input"
+                  required
+                />
+                <label for="password">Create Password</label>
+                <div class="focus-line"></div>
+                <i class="fas fa-lock input-icon"></i>
+                <button type="button" class="toggle-password">
+                  <i class="fas fa-eye"></i>
+                </button>
+              </div>
+              <div class="password-requirements">
+                <div class="requirement">
+                  <i class="fas fa-check-circle"></i> At least 8 characters
+                </div>
+                <div class="requirement">
+                  <i class="fas fa-check-circle"></i> No leading/trailing spaces
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Terms and Conditions -->
+          <div class="form-group terms-group fade-in">
+            <input type="checkbox" id="terms" name="terms" required />
+            <label for="terms">
+              I agree to the <a href="#" class="terms-link">Terms of Service</a> and 
+              <a href="#" class="terms-link">Privacy Policy</a>
+            </label>
+          </div>
+
+          <!-- Submit Button -->
+          <button type="submit" class="submit-btn">
+            <span>Create Account</span>
+            <i class="fas fa-arrow-right"></i>
+            <div class="btn-wave"></div>
+          </button>
+        </form>
+      </div>
+    </div>
+
+     <!--Service Provider Description Section -->
+<section class="service-provider-info py-5 mt-5 mb-5">
+  <div class="container">
+    <div class="row align-items-center g-4">
+      <div class="col-lg-6 order-lg-1 order-2">
+        <div class="info-content pe-lg-4">
+          <h2 class="display-5 fw-bold mb-4 text-primary">Become a Service Provider</h2>
+          <p class="lead mb-4">Join our platform to connect with customers and grow your business. As a verified service provider, you'll get access to:</p>
+          <ul class="benefits-list list-unstyled">
+            <li class="mb-3 d-flex align-items-start">
+              <i class="fas fa-check-circle text-success mt-1 me-3"></i>
+              <span>Thousands of potential customers in your area</span>
+            </li>
+            <li class="mb-3 d-flex align-items-start">
+              <i class="fas fa-check-circle text-success mt-1 me-3"></i>
+              <span>Easy appointment scheduling and management</span>
+            </li>
+            <li class="mb-3 d-flex align-items-start">
+              <i class="fas fa-check-circle text-success mt-1 me-3"></i>
+              <span>Customer reviews and ratings to build trust</span>
+            </li>
+            <li class="mb-3 d-flex align-items-start">
+              <i class="fas fa-check-circle text-success mt-1 me-3"></i>
+              <span>Marketing tools to promote your services</span>
+            </li>
+            <li class="mb-3 d-flex align-items-start">
+              <i class="fas fa-check-circle text-success mt-1 me-3"></i>
+              <span>Secure payment processing</span>
+            </li>
+            <li class="d-flex align-items-start">
+              <i class="fas fa-check-circle text-success mt-1 me-3"></i>
+              <span>24/7 customer support</span>
+            </li>
+          </ul>
+         <button class="btn btn-primary btn-lg mt-4 px-4 py-2 shadow-sm">
+  <a href="#registration" class="text-white text-decoration-none">Get Started Today</a>
+</button>
+        </div>
+      </div>
+      <div class="col-lg-6 order-lg-2 order-1">
+  <div class="info-image position-relative">
+    <img src="{% static 'media/plumber.jpeg' %}" 
+         alt="Service Provider" 
+         class="img-fluid rounded-3 shadow-lg"
+         style="max-height: 500px; width: 100%; object-fit: cover;">
+    <div class="position-absolute bottom-0 end-0 m-4">
+      <span class="badge bg-success p-2 shadow-sm">
+        <i class="fas fa-star me-1"></i> Trusted Professionals
+      </span>
+    </div>
+  </div>
+</div>
+    </div>
+  </div>
+</section>
+
+    <!--Bottom-->
+    <div class="container-fluid footer-section mt-5">
+      <div class="container">
+        <!-- Main Footer Content -->
+        <div class="footer-content">
+          <div class="footer-brand">
+            <i class="fas fa-location-dot footer-logo pulse"></i>
+            <h2 class="footer-title">SmartCityConnect</h2>
+          </div>
+
+          <div class="footer-text">
+            <p class="footer-copyright">
+              © 2025 SmartCityConnect. All rights reserved.
+            </p>
+            <p class="footer-disclaimer">
+              SmartCityConnect is an independent service provider and is not
+              affiliated with any parent company.
+            </p>
+
+            <div class="footer-rewards slide-up">
+              <h5 class="rewards-title">Rewards Program</h5>
+              <p class="rewards-text">
+                Available to customers who book services through
+                SmartCityConnect. New and existing users welcome. No
+                subscription required. Must be 18 years or older to participate.
+                A user account on SmartCityConnect is required to earn rewards.
+                Geographical exclusions may apply. Enjoy one reward per month
+                for a year, redeemable through the SmartCityConnect app or
+                website.
+              </p>
+            </div>
+
+            <div class="footer-premium slide-up" style="--delay: 0.2s">
+              <h5 class="premium-title">Premium Rewards</h5>
+              <p class="premium-text">
+                Available to customers who book services through the
+                SmartCityConnect app only. Maximum claim limit applies.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Back to Top Button -->
+        <div class="back-to-top">
+          <a href="#top" class="top-link">
+            <span class="top-text">Back to Top</span>
+            <i class="fas fa-arrow-up top-icon"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
