@@ -72,5 +72,5 @@ Follow these steps to run this project locally on your machine.
 [Explain in 2-3 sentences how you implemented the "AI" functionality. Be honest and specific. For example:]
 "The chatbot feature uses the OpenAI API. When a user describes their problem, their query is sent to the API, which categorizes the request (e.g., 'plumbing', 'electrical') and suggests keywords. These keywords are then used to filter the database of service providers."
 
-## 📁 Project Structure
+
 
